@@ -12,6 +12,7 @@ export class CalculatorComponent implements OnInit {
   currentValue: Number;
   prevValue: Number;
   operators: Array<string>;
+  calculatorButtons : string[];
 
   constructor() {
     this.operand = '';
@@ -20,6 +21,7 @@ export class CalculatorComponent implements OnInit {
     this.currentValue = 0;
     this.prevValue = 0;
     this.operators = ['*', '+', '-', '/'];
+    this.calculatorButtons = ['DEL', '/', '1', '2', '3', '*', '4', '5', '6', '+', '7', '8', '9', '-', '.', '0'];
   }
   ngOnInit(): void {}
 

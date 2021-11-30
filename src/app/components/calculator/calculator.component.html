@@ -3,21 +3,6 @@
     <app-calcheader operand="{{operand}}" prevOperand="{{prevOperand}}"></app-calcheader>
     </div>
     <app-calcbutton class="span-two" text="AC" (calcButtonClick)="handleCalcButtonOperationEmit('AC')"></app-calcbutton>
-    <app-calcbutton text="DEL" (calcButtonClick)="handleCalcButtonOperationEmit('DEL')"></app-calcbutton>
-    <app-calcbutton text="/" (calcButtonClick)="handleCalcButtonOperationEmit('/')"></app-calcbutton>
-    <app-calcbutton text="1" (calcButtonClick)="handleCalcButtonOperationEmit('1')"></app-calcbutton>
-    <app-calcbutton text="2" (calcButtonClick)="handleCalcButtonOperationEmit('2')"></app-calcbutton>
-    <app-calcbutton text="3" (calcButtonClick)="handleCalcButtonOperationEmit('3')"></app-calcbutton>
-    <app-calcbutton text="*" (calcButtonClick)="handleCalcButtonOperationEmit('*')"></app-calcbutton>
-    <app-calcbutton text="4" (calcButtonClick)="handleCalcButtonOperationEmit('4')"></app-calcbutton>
-    <app-calcbutton text="5" (calcButtonClick)="handleCalcButtonOperationEmit('5')"></app-calcbutton>
-    <app-calcbutton text="6" (calcButtonClick)="handleCalcButtonOperationEmit('6')"></app-calcbutton>
-    <app-calcbutton text="+" (calcButtonClick)="handleCalcButtonOperationEmit('+')"></app-calcbutton>
-    <app-calcbutton text="7" (calcButtonClick)="handleCalcButtonOperationEmit('7')"></app-calcbutton>
-    <app-calcbutton text="8" (calcButtonClick)="handleCalcButtonOperationEmit('8')"></app-calcbutton>
-    <app-calcbutton text="9" (calcButtonClick)="handleCalcButtonOperationEmit('9')"></app-calcbutton>
-    <app-calcbutton text="-" (calcButtonClick)="handleCalcButtonOperationEmit('-')"></app-calcbutton>
-    <app-calcbutton text="." (calcButtonClick)="handleCalcButtonOperationEmit('.')"></app-calcbutton>
-    <app-calcbutton text="0" (calcButtonClick)="handleCalcButtonOperationEmit('0')"></app-calcbutton>
+    <app-calcbutton *ngFor="let button of calculatorButtons" text={{button}} (calcButtonClick)="handleCalcButtonOperationEmit(button)" ></app-calcbutton>
     <app-calcbutton class="span-two" text="=" (calcButtonClick)="handleCalcButtonOperationEmit('=')"></app-calcbutton>
 </div>

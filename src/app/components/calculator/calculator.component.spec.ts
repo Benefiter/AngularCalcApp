@@ -23,18 +23,24 @@ describe('CalculatorComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CalculatorComponent);
     component = fixture.componentInstance;
+    fixture?.detectChanges();
     de = fixture?.debugElement;
     calculatorButtons = de?.queryAll(By.css('app-calcbutton'));
-    fixture?.detectChanges();
   });
 
   function getAppCalcButton(testButtons: Array<DebugElement>, textId: string) {
     return testButtons?.find(t => t.attributes['text'] === textId)
   }
 
+  function getAppCalcButtonFromNgContext(testButtons: Array<DebugElement>, textId: string) {
+    return testButtons?.find(t => t.context.$implicit === textId)
+  }
+
   function clickCalculatorButton(button: string) {
     let calculatorButton: TestCalculatorButton = getAppCalcButton(calculatorButtons, button);
-    calculatorButton?.triggerEventHandler('calcButtonClick', button);
+    calculatorButton 
+    ? calculatorButton?.triggerEventHandler('calcButtonClick', button)
+    : getAppCalcButtonFromNgContext(calculatorButtons, button)?.triggerEventHandler('calcButtonClick', button);
   }
 
   it('should create', () => {
