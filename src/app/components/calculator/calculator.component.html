@@ -2,7 +2,5 @@
     <div class="calc-header">
     <app-calcheader operand="{{operand}}" prevOperand="{{prevOperand}}"></app-calcheader>
     </div>
-    <app-calcbutton class="span-two" text="AC" (calcButtonClick)="handleCalcButtonOperationEmit('AC')"></app-calcbutton>
-    <app-calcbutton *ngFor="let button of calculatorButtons" text={{button}} (calcButtonClick)="handleCalcButtonOperationEmit(button)" ></app-calcbutton>
-    <app-calcbutton class="span-two" text="=" (calcButtonClick)="handleCalcButtonOperationEmit('=')"></app-calcbutton>
+    <app-calcbutton *ngFor="let button of calculatorButtons" class={{button.className}} text={{button.buttonName}} (calcButtonClick)="handleCalcButtonOperationEmit(button.buttonName)" ></app-calcbutton>
 </div>

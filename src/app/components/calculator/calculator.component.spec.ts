@@ -33,7 +33,7 @@ describe('CalculatorComponent', () => {
   }
 
   function getAppCalcButtonFromNgContext(testButtons: Array<DebugElement>, textId: string) {
-    return testButtons?.find(t => t.context.$implicit === textId)
+    return testButtons?.find(t => t.context.$implicit?.buttonName === textId)
   }
 
   function clickCalculatorButton(button: string) {

@@ -1,4 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
+import {
+  CalculatorButton,
+  CalculatorButtonContext,
+} from './CalculatorButtonContext';
 
 @Component({
   selector: 'app-calculator',
@@ -12,7 +16,7 @@ export class CalculatorComponent implements OnInit {
   currentValue: Number;
   prevValue: Number;
   operators: Array<string>;
-  calculatorButtons : string[];
+  calculatorButtons: CalculatorButton[];
 
   constructor() {
     this.operand = '';
@@ -21,7 +25,7 @@ export class CalculatorComponent implements OnInit {
     this.currentValue = 0;
     this.prevValue = 0;
     this.operators = ['*', '+', '-', '/'];
-    this.calculatorButtons = ['DEL', '/', '1', '2', '3', '*', '4', '5', '6', '+', '7', '8', '9', '-', '.', '0'];
+    this.calculatorButtons = CalculatorButtonContext;
   }
   ngOnInit(): void {}
 
@@ -86,7 +90,7 @@ export class CalculatorComponent implements OnInit {
   }
 
   handleOperationButton(event: string) {
-    if (this.operand === '' && this.prevOperand === '' || this.currentOperation !== '') return;
+    if (this.operand === '' && this.prevOperand === '' || this.operand === '') return;
 
     if (this.currentOperation !== '') {
       this.prevOperand = `${this.execute('').toString()} ${event}`;
