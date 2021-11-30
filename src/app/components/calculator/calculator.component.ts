@@ -84,7 +84,7 @@ export class CalculatorComponent implements OnInit {
   }
 
   handleOperationButton(event: string) {
-    if (this.operand === '' && this.prevOperand === '') return;
+    if (this.operand === '' && this.prevOperand === '' || this.currentOperation !== '') return;
 
     if (this.currentOperation !== '') {
       this.prevOperand = `${this.execute('').toString()} ${event}`;

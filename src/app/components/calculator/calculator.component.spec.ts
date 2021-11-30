@@ -160,4 +160,34 @@ describe('CalculatorComponent', () => {
     expect(component?.currentOperation)?.toBe('');
   });
 
+  it('should ignore contiguous operation buttons', () => {
+    clickCalculatorButton('1');
+    clickCalculatorButton('+');
+    clickCalculatorButton('/');
+
+    expect(component?.operand)?.toBe('');
+    expect(component?.prevOperand)?.toBe('1 +');
+    expect(component?.currentOperation)?.toBe('+');
+  });
+
+  it('should restore operand and reset prevOperand operation with button sequence 1 + 2 DEL DEL', () => {
+    clickCalculatorButton('1');
+    clickCalculatorButton('+');
+    clickCalculatorButton('2');
+    expect(component?.operand)?.toBe('2');
+    expect(component?.prevOperand)?.toBe('1 +');
+    expect(component?.currentOperation)?.toBe('+');
+
+    clickCalculatorButton('DEL');
+    expect(component?.operand)?.toBe('');
+    expect(component?.prevOperand)?.toBe('1 +');
+    expect(component?.currentOperation)?.toBe('+');
+
+    clickCalculatorButton('DEL');
+    expect(component?.operand)?.toBe('1');
+    expect(component?.prevOperand)?.toBe('');
+    expect(component?.currentOperation)?.toBe('');
+
+  });
+
 });
