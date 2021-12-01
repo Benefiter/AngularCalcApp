@@ -1,0 +1,10 @@
+.padding {
+    padding: 5px;
+}
+
+
+.iconmenu-width {
+    width: 100%;
+    border: 1px solid white;
+    display: flex;
+}

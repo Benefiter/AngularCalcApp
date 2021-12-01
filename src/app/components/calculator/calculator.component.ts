@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { NotificationService } from 'src/app/utility/notification.service';
 import {
   CalculatorButton,
   CalculatorButtonContext,
@@ -18,7 +19,7 @@ export class CalculatorComponent implements OnInit {
   operators: Array<string>;
   calculatorButtons: CalculatorButton[];
 
-  constructor() {
+  constructor(private notifyService: NotificationService) {
     this.operand = '';
     this.prevOperand = '';
     this.currentOperation = '';
@@ -93,9 +94,11 @@ export class CalculatorComponent implements OnInit {
     if (this.operand === '' && this.prevOperand === '' || this.operand === '') return;
 
     if (this.currentOperation !== '') {
-      this.prevOperand = `${this.execute('').toString()} ${event}`;
+      const result = this.execute('').toString();
+      this.prevOperand = `${result} ${event}`;
       this.operand = '';
       this.currentOperation = event;
+      this.notifyService.showInfoWithTimeout("Result", result, 3000 )
       return;
     }
     this.currentOperation = event;
@@ -108,6 +111,7 @@ export class CalculatorComponent implements OnInit {
     this.operand = this.execute('').toString();
     this.prevOperand = '';
     this.currentOperation = '';
+    this.notifyService.showInfoWithTimeout("Result", this.operand, 3000 )
   }
 
   execute(operation: string) {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { faTimes, faDivide, faPlus, faMinus, faEquals } from '@fortawesome/free-solid-svg-icons';
 
 type IconType = 'times' | 'divide' | 'plus' | 'minus' | 'equals';
@@ -12,6 +12,7 @@ type ColorType = 'red' | 'black' | 'green' | 'blue';
 export class IconComponent implements OnInit {
   @Input() icon: IconType;
   @Input() color: ColorType;
+  @Output() iconClick = new EventEmitter();
 
   theIcon = faTimes;
 
@@ -46,5 +47,9 @@ export class IconComponent implements OnInit {
     console.log('style');
     console.log(style);
     return style;
+  }
+
+  onClick() {
+    this.iconClick.emit(this.icon);
   }
 }

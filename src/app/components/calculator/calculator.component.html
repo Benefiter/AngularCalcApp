@@ -1,6 +1,17 @@
-<div class="calc-container">
+<div class="container">
+  <app-iconmenu class="iconmenu-width"></app-iconmenu>
+  <div class="calc-container">
     <div class="calc-header">
-    <app-calcheader operand="{{operand}}" prevOperand="{{prevOperand}}"></app-calcheader>
+      <app-calcheader
+        operand="{{ operand }}"
+        prevOperand="{{ prevOperand }}"
+      ></app-calcheader>
     </div>
-    <app-calcbutton *ngFor="let button of calculatorButtons" class={{button.className}} text={{button.buttonName}} (calcButtonClick)="handleCalcButtonOperationEmit(button.buttonName)" ></app-calcbutton>
+    <app-calcbutton
+      *ngFor="let button of calculatorButtons"
+      class="{{ button.className }}"
+      text="{{ button.buttonName }}"
+      (calcButtonClick)="handleCalcButtonOperationEmit(button.buttonName)"
+    ></app-calcbutton>
+  </div>
 </div>

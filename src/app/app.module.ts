@@ -7,7 +7,10 @@ import { CalcbuttonComponent } from './components/calcbutton/calcbutton.componen
 import { CalculatorComponent } from './components/calculator/calculator.component';
 import { CalcoperandComponent } from './components/calcoperand/calcoperand.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { IconComponent } from './icon/icon.component';
+import { IconComponent } from './components/icon/icon.component';
+import { IconmenuComponent } from './components/iconmenu/iconmenu.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -16,11 +19,18 @@ import { IconComponent } from './icon/icon.component';
     CalcbuttonComponent,
     CalculatorComponent,
     CalcoperandComponent,
-    IconComponent
+    IconComponent,
+    IconmenuComponent
   ],
   imports: [
     BrowserModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      timeOut: 5000,
+      positionClass: 'toast-top-left',
+      preventDuplicates: true,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]
