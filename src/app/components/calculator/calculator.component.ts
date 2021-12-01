@@ -122,12 +122,13 @@ export class CalculatorComponent implements OnInit {
       case '+':
         return (Number(this.getPrevOperand()) + theOperand).toString();
       case '*':
-        return (theOperand * Number(this.getPrevOperand())).toString();
+        return (Number(this.getPrevOperand()) * theOperand).toString();
       case '-':
         return (Number(this.getPrevOperand()) - theOperand).toString();
       case '/':
         return (Number(this.getPrevOperand()) / theOperand).toString();
       default:
+        // Should never happen...
         return Number.NaN;
     }
   }
