@@ -6,6 +6,8 @@ import { CalcheaderComponent } from './components/calcheader/calcheader.componen
 import { CalcbuttonComponent } from './components/calcbutton/calcbutton.component';
 import { CalculatorComponent } from './components/calculator/calculator.component';
 import { CalcoperandComponent } from './components/calcoperand/calcoperand.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { IconComponent } from './icon/icon.component';
 
 @NgModule({
   declarations: [
@@ -13,10 +15,12 @@ import { CalcoperandComponent } from './components/calcoperand/calcoperand.compo
     CalcheaderComponent,
     CalcbuttonComponent,
     CalculatorComponent,
-    CalcoperandComponent
+    CalcoperandComponent,
+    IconComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
