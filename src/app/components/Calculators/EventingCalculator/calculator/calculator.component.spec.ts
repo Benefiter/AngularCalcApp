@@ -6,7 +6,7 @@ import { toastrService } from 'src/app/testing/stubs';
 
 import { CalculatorComponent } from './calculator.component';
 
-export type TestCalculatorButton = DebugElement | undefined;
+type TestCalculatorButton = DebugElement | undefined;
 
 describe('CalculatorComponent', () => {
   

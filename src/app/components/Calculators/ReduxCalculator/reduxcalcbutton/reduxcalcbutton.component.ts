@@ -19,8 +19,6 @@ export class ReduxcalcbuttonComponent implements OnInit {
   ngOnInit(): void {}
 
   onClick() {
-    // console.log('click ' + this.text);
-
     this.store.dispatch(setButtonClick({ button: this.text }))
     this.calcButtonClick.emit(this.text);
   }
