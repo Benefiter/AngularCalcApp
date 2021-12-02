@@ -3,9 +3,11 @@ import { ToastrService } from 'ngx-toastr';
 import { toastrService } from 'src/app/testing/stubs';
 import { ReduxcalculatorComponent } from './reduxcalculator.component';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import { INITIAL_STATE } from 'src/app/redux/calculator.state.model';
+import { IAppStore, INITIAL_STATE } from 'src/app/redux/calculator.state.model';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { Store, StoreModule } from '@ngrx/store';
+import { calculatorStateReducer } from 'src/app/redux/calculator.reducer';
 
 type TestReduxCalculatorButton = DebugElement | undefined;
 
@@ -14,18 +16,20 @@ describe('ReduxcalculatorComponent', () => {
   let fixture: ComponentFixture<ReduxcalculatorComponent>;
   let de: DebugElement;
   let calculatorButtons: Array<DebugElement>;
-  let store: MockStore;
+  let store:  Store<IAppStore>;
   const initialState = INITIAL_STATE;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ReduxcalculatorComponent ],
+      imports: [
+        StoreModule.forRoot({ calculatorState: calculatorStateReducer }),
+      ],
+      declarations: [ReduxcalculatorComponent],
       providers: [
-        provideMockStore({ initialState }),
-        {provide: ToastrService, useValue: toastrService}
-      ]
-    })
-    .compileComponents();
+        { provide: ToastrService, useValue: toastrService },
+      ],
+    }).compileComponents();
+
   });
 
   beforeEach(() => {
@@ -37,22 +41,34 @@ describe('ReduxcalculatorComponent', () => {
   });
 
   function getAppCalcButton(testButtons: Array<DebugElement>, textId: string) {
-    return testButtons?.find(t => t.attributes['text'] === textId)
+    return testButtons?.find((t) => t.attributes['text'] === textId);
   }
 
-  function getAppCalcButtonFromNgContext(testButtons: Array<DebugElement>, textId: string) {
-    return testButtons?.find(t => t.context.$implicit?.buttonName === textId)
+  function getAppCalcButtonFromNgContext(
+    testButtons: Array<DebugElement>,
+    textId: string
+  ) {
+    const ngxCalcButton = testButtons?.find(
+      (t) => t.context.$implicit?.buttonName === textId
+    );
+    return ngxCalcButton;
   }
 
   function clickCalculatorButton(button: string) {
-    let calculatorButton: TestReduxCalculatorButton = getAppCalcButton(calculatorButtons, button);
-    calculatorButton 
-    ? calculatorButton?.triggerEventHandler('calcButtonClick', button)
-    : getAppCalcButtonFromNgContext(calculatorButtons, button)?.triggerEventHandler('calcButtonClick', button);
+    let calculatorButton: TestReduxCalculatorButton = getAppCalcButton(
+      calculatorButtons,
+      button
+    );
+    calculatorButton
+      ? calculatorButton?.triggerEventHandler('click', button)
+      : getAppCalcButtonFromNgContext(
+          calculatorButtons,
+          button
+        )?.triggerEventHandler('click', button);
   }
-
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });
