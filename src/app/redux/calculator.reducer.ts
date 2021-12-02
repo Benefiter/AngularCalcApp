@@ -11,8 +11,7 @@ import {
 } from './calculator.actions';
 import { Action, createReducer, on } from '@ngrx/store';
 import { cloneDeep } from 'lodash';
-
-const operators = ['*', '+', '-', '/'];
+import { operators } from '../constants';
 
 const updateHistory = (
   resultHistory: ICalcResult[] | undefined,
