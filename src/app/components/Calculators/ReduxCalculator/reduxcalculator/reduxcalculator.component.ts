@@ -38,7 +38,7 @@ export class ReduxcalculatorComponent implements OnInit {
     this.store.select('calculatorState').subscribe((state) => {
       const { currentValue } = state;
       if (this.currentValue !== currentValue) {
-        this.notifyService.showInfoWithTimeout(
+        this.notifyService?.showInfoWithTimeout(
           'Result',
           currentValue.toString(),
           3000

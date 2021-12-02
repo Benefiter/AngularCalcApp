@@ -15,6 +15,6 @@ export class AppComponent implements OnInit {
 
   // For how-to reference..
   showHtmlToaster(){
-    this.notifyService.showHTMLMessage("<h2>Data shown successfully !!</h2>", "Notification")
+    this.notifyService?.showHTMLMessage("<h2>Data shown successfully !!</h2>", "Notification")
   }
 }

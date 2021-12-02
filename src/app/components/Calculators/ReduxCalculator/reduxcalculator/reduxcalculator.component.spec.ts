@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ToastrService } from 'ngx-toastr';
+import { toastrService } from 'src/app/testing/stubs';
 
 import { ReduxcalculatorComponent } from './reduxcalculator.component';
 
@@ -8,7 +10,10 @@ describe('ReduxcalculatorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ReduxcalculatorComponent ]
+      declarations: [ ReduxcalculatorComponent ],
+      providers: [
+        {provide: ToastrService, useValue: toastrService}
+      ]
     })
     .compileComponents();
   });

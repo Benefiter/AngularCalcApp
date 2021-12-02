@@ -1,5 +1,8 @@
 import { TestBed } from '@angular/core/testing';
+import { ToastrService } from 'ngx-toastr';
 import { AppComponent } from './app.component';
+import { toastrService } from './testing/stubs';
+import { NotificationService } from './utility/notification.service';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -7,6 +10,9 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
+      providers: [
+        {provide: ToastrService, useValue: toastrService}
+      ]
     }).compileComponents();
   });
 

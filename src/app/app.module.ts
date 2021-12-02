@@ -9,7 +9,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconComponent } from './components/Calculators/icon/icon.component';
 import { IconmenuComponent } from './components/Calculators/iconmenu/iconmenu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastrModule } from 'ngx-toastr';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { CalcheaderComponent } from './components/Calculators/EventingCalculator/calcheader/calcheader.component';
 import { StoreModule } from '@ngrx/store';
 import { calculatorStateReducer } from './redux/calculator.reducer';
@@ -17,6 +17,7 @@ import { ReduxcalcbuttonComponent } from './components/Calculators/ReduxCalculat
 import { ReduxcalcheaderComponent } from './components/Calculators/ReduxCalculator/reduxcalcheader/reduxcalcheader.component';
 import { ReduxcalcoperandComponent } from './components/Calculators/ReduxCalculator/reduxcalcoperand/reduxcalcoperand.component';
 import { ReduxcalculatorComponent } from './components/Calculators/ReduxCalculator/reduxcalculator/reduxcalculator.component';
+import { NotificationService } from './utility/notification.service';
 
 @NgModule({
   declarations: [
@@ -33,17 +34,17 @@ import { ReduxcalculatorComponent } from './components/Calculators/ReduxCalculat
     ReduxcalculatorComponent,
   ],
   imports: [
-    BrowserModule,
+  BrowserModule,
     StoreModule.forRoot({ calculatorState: calculatorStateReducer }),
     FontAwesomeModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot({
+    ToastrModule.forRoot(({
       timeOut: 5000,
-      positionClass: 'toast-top-left',
+      positionClass: 'toast-bottom-right',
       preventDuplicates: true,
-    }),
+    })),
   ],
-  providers: [],
+  providers: [NotificationService, ToastrService],
   bootstrap: [AppComponent],
 })
 export class AppModule {
