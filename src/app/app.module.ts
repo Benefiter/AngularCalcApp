@@ -11,6 +11,8 @@ import { IconmenuComponent } from './components/EventingCalculator/iconmenu/icon
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { CalcheaderComponent } from './components/EventingCalculator/calcheader/calcheader.component';
+import {NgRedux, NgReduxModule} from '@angular-redux/store';
+import { IAppState,  INITIAL_STATE, rootReducer } from './store';
 
 @NgModule({
   declarations: [
@@ -31,8 +33,13 @@ import { CalcheaderComponent } from './components/EventingCalculator/calcheader/
       positionClass: 'toast-top-left',
       preventDuplicates: true,
     }),
+    NgReduxModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(ngRedux: NgRedux<IAppState>) {
+    ngRedux.configureStore(rootReducer,INITIAL_STATE);
+  }
+ }
