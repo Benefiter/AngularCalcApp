@@ -3,11 +3,9 @@ import { NotificationService } from 'src/app/utility/notification.service';
 import {
   CalculatorButton,
   CalculatorButtonContext,
-} from '../../EventingCalculator/calculator/CalculatorButtonContext';
-import { Observable } from 'rxjs';
+} from 'src/app/models/calculatorButtons';
 import { Store } from '@ngrx/store';
-import { IAppState, IAppStore } from 'src/app/redux/calculator.state.model';
-import * as calcSelectors from 'src/app/redux/calculator.selectors';
+import { IAppStore } from 'src/app/redux/calculator.state.model';
 
 @Component({
   selector: 'app-reduxcalculator',

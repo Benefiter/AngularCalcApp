@@ -1,9 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { CalculatorButton, CalculatorButtonContext } from 'src/app/models/calculatorButtons';
 import { NotificationService } from 'src/app/utility/notification.service';
-import {
-  CalculatorButton,
-  CalculatorButtonContext,
-} from './CalculatorButtonContext';
 
 @Component({
   selector: 'app-calculator',
