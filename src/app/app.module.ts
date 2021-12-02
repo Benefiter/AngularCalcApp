@@ -34,11 +34,11 @@ import { ReduxiconmenuComponent } from './components/ReduxCalculator/reduxiconme
     ReduxcalcoperandComponent,
     ReduxcalculatorComponent,
     ReduxiconComponent,
-    ReduxiconmenuComponent
+    ReduxiconmenuComponent,
   ],
   imports: [
     BrowserModule,
-    StoreModule.forRoot({calculatorState: calculatorStateReducer}),
+    StoreModule.forRoot({ calculatorState: calculatorStateReducer }),
     FontAwesomeModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
@@ -48,6 +48,8 @@ import { ReduxiconmenuComponent } from './components/ReduxCalculator/reduxiconme
     }),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {}
+}
