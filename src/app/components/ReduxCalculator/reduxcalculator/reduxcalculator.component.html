@@ -1,0 +1,17 @@
+<div class="container">
+    <app-reduxiconmenu class="iconmenu-width"></app-reduxiconmenu>
+    <div class="calc-container">
+      <div class="calc-header">
+        <app-reduxcalcheader
+          operand="{{ operand }}"
+          prevOperand="{{ prevOperand }}"
+        ></app-reduxcalcheader>
+      </div>
+      <app-reduxcalcbutton
+        *ngFor="let button of calculatorButtons"
+        class="{{ button.className }}"
+        text="{{ button.buttonName }}"
+      ></app-reduxcalcbutton>
+    </div>
+  </div>
+  

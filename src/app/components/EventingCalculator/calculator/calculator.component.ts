@@ -15,7 +15,6 @@ export class CalculatorComponent implements OnInit {
   @Input() prevOperand: string;
   currentOperation: string;
   currentValue: Number;
-  prevValue: Number;
   operators: Array<string>;
   calculatorButtons: CalculatorButton[];
 
@@ -24,7 +23,6 @@ export class CalculatorComponent implements OnInit {
     this.prevOperand = '';
     this.currentOperation = '';
     this.currentValue = 0;
-    this.prevValue = 0;
     this.operators = ['*', '+', '-', '/'];
     this.calculatorButtons = CalculatorButtonContext;
   }

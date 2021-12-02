@@ -11,6 +11,14 @@ import { IconmenuComponent } from './components/EventingCalculator/iconmenu/icon
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { CalcheaderComponent } from './components/EventingCalculator/calcheader/calcheader.component';
+import { StoreModule } from '@ngrx/store';
+import { calculatorStateReducer } from './redux/calculator.reducer';
+import { ReduxcalcbuttonComponent } from './components/ReduxCalculator/reduxcalcbutton/reduxcalcbutton.component';
+import { ReduxcalcheaderComponent } from './components/ReduxCalculator/reduxcalcheader/reduxcalcheader.component';
+import { ReduxcalcoperandComponent } from './components/ReduxCalculator/reduxcalcoperand/reduxcalcoperand.component';
+import { ReduxcalculatorComponent } from './components/ReduxCalculator/reduxcalculator/reduxcalculator.component';
+import { ReduxiconComponent } from './components/ReduxCalculator/reduxicon/reduxicon.component';
+import { ReduxiconmenuComponent } from './components/ReduxCalculator/reduxiconmenu/reduxiconmenu.component';
 
 @NgModule({
   declarations: [
@@ -20,10 +28,17 @@ import { CalcheaderComponent } from './components/EventingCalculator/calcheader/
     CalculatorComponent,
     CalcoperandComponent,
     IconComponent,
-    IconmenuComponent
+    IconmenuComponent,
+    ReduxcalcbuttonComponent,
+    ReduxcalcheaderComponent,
+    ReduxcalcoperandComponent,
+    ReduxcalculatorComponent,
+    ReduxiconComponent,
+    ReduxiconmenuComponent
   ],
   imports: [
     BrowserModule,
+    StoreModule.forRoot({calculatorState: calculatorStateReducer}),
     FontAwesomeModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
