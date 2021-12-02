@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IAppStore } from 'src/app/redux/calculator.state.model';
-import { setButtonClick } from './../../../redux/calculator.actions';
+import { setButtonClick } from '../../../../redux/calculator.actions';
 
 @Component({
   selector: 'app-reduxcalcbutton',

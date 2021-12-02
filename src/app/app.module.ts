@@ -2,23 +2,21 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { CalcbuttonComponent } from './components/EventingCalculator/calcbutton/calcbutton.component';
-import { CalculatorComponent } from './components/EventingCalculator/calculator/calculator.component';
-import { CalcoperandComponent } from './components/EventingCalculator/calcoperand/calcoperand.component';
+import { CalcbuttonComponent } from './components/Calculators/EventingCalculator/calcbutton/calcbutton.component';
+import { CalculatorComponent } from './components/Calculators/EventingCalculator/calculator/calculator.component';
+import { CalcoperandComponent } from './components/Calculators/EventingCalculator/calcoperand/calcoperand.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { IconComponent } from './components/EventingCalculator/icon/icon.component';
-import { IconmenuComponent } from './components/EventingCalculator/iconmenu/iconmenu.component';
+import { IconComponent } from './components/Calculators/icon/icon.component';
+import { IconmenuComponent } from './components/Calculators/iconmenu/iconmenu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-import { CalcheaderComponent } from './components/EventingCalculator/calcheader/calcheader.component';
+import { CalcheaderComponent } from './components/Calculators/EventingCalculator/calcheader/calcheader.component';
 import { StoreModule } from '@ngrx/store';
 import { calculatorStateReducer } from './redux/calculator.reducer';
-import { ReduxcalcbuttonComponent } from './components/ReduxCalculator/reduxcalcbutton/reduxcalcbutton.component';
-import { ReduxcalcheaderComponent } from './components/ReduxCalculator/reduxcalcheader/reduxcalcheader.component';
-import { ReduxcalcoperandComponent } from './components/ReduxCalculator/reduxcalcoperand/reduxcalcoperand.component';
-import { ReduxcalculatorComponent } from './components/ReduxCalculator/reduxcalculator/reduxcalculator.component';
-import { ReduxiconComponent } from './components/ReduxCalculator/reduxicon/reduxicon.component';
-import { ReduxiconmenuComponent } from './components/ReduxCalculator/reduxiconmenu/reduxiconmenu.component';
+import { ReduxcalcbuttonComponent } from './components/Calculators/ReduxCalculator/reduxcalcbutton/reduxcalcbutton.component';
+import { ReduxcalcheaderComponent } from './components/Calculators/ReduxCalculator/reduxcalcheader/reduxcalcheader.component';
+import { ReduxcalcoperandComponent } from './components/Calculators/ReduxCalculator/reduxcalcoperand/reduxcalcoperand.component';
+import { ReduxcalculatorComponent } from './components/Calculators/ReduxCalculator/reduxcalculator/reduxcalculator.component';
 
 @NgModule({
   declarations: [
@@ -33,8 +31,6 @@ import { ReduxiconmenuComponent } from './components/ReduxCalculator/reduxiconme
     ReduxcalcheaderComponent,
     ReduxcalcoperandComponent,
     ReduxcalculatorComponent,
-    ReduxiconComponent,
-    ReduxiconmenuComponent,
   ],
   imports: [
     BrowserModule,
