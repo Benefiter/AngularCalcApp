@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { ToastrService } from 'ngx-toastr';
 import { AppComponent } from './app.component';
 import { toastrService } from './testing/stubs';
-import { NotificationService } from './utility/notification.service';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -20,12 +19,6 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
-  });
-
-  it(`should have as title 'calculator'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('calculator');
   });
 
   it('should render title Calculator', () => {

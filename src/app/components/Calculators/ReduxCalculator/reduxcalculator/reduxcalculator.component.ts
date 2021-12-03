@@ -6,6 +6,7 @@ import {
 } from 'src/app/models/calculatorButtons';
 import { Store } from '@ngrx/store';
 import { IAppStore } from 'src/app/redux/calculator.state.model';
+import { operators } from './../../../../constants';
 
 @Component({
   selector: 'app-reduxcalculator',
@@ -23,7 +24,7 @@ export class ReduxcalculatorComponent implements OnInit {
     private notifyService: NotificationService,
     private store: Store<IAppStore>
   ) {
-    this.operators = ['*', '+', '-', '/'];
+    this.operators = operators;
     this.calculatorButtons = CalculatorButtonContext;
     this.currentValue = 0;
   }

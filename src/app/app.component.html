@@ -1,4 +1,12 @@
 <div class="title">
-  <h1>Calculator</h1>
+  <span>
+    <h1>{{ title }}</h1>
+    <a class="link" routerLink="/redux" (click)="setCurrentRoute('redux')" [hidden]="!home"
+      >Switch to Redux Calculator</a
+    >
+    <a class="link" routerLink="/" (click)="setCurrentRoute('/')" [hidden]="home"
+      >Switch to Event Calculator</a
+    >
+  </span>
 </div>
-<app-reduxcalculator></app-reduxcalculator>
+<router-outlet></router-outlet>

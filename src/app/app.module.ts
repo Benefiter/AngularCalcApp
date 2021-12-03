@@ -18,7 +18,12 @@ import { ReduxcalcheaderComponent } from './components/Calculators/ReduxCalculat
 import { ReduxcalcoperandComponent } from './components/Calculators/ReduxCalculator/reduxcalcoperand/reduxcalcoperand.component';
 import { ReduxcalculatorComponent } from './components/Calculators/ReduxCalculator/reduxcalculator/reduxcalculator.component';
 import { NotificationService } from './utility/notification.service';
+import { RouterModule, Routes } from '@angular/router';
 
+const appRoutes: Routes = [
+  {path: '', component: CalculatorComponent},
+  {path: 'redux', component: ReduxcalculatorComponent}
+]
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,15 +39,16 @@ import { NotificationService } from './utility/notification.service';
     ReduxcalculatorComponent,
   ],
   imports: [
-  BrowserModule,
+    BrowserModule,
     StoreModule.forRoot({ calculatorState: calculatorStateReducer }),
     FontAwesomeModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot(({
+    ToastrModule.forRoot({
       timeOut: 5000,
-      positionClass: 'toast-bottom-right',
+      positionClass: 'toast-top-left',
       preventDuplicates: true,
-    })),
+    }),
+    RouterModule.forRoot(appRoutes, {enableTracing: true})
   ],
   providers: [NotificationService, ToastrService],
   bootstrap: [AppComponent],

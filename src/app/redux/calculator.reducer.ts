@@ -29,7 +29,6 @@ const handleButtonClick = (state: IAppState, button: string) => {
 const _calculatorStateReducer = createReducer(
   INITIAL_STATE,
   on(setOperand, (state, { operand }) => {
-    console.log('setOperand');
     return { ...state, operand };
   }),
   on(setButtonClick, (state, { button }) => handleButtonClick(state, button)),

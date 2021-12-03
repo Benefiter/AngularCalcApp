@@ -7,7 +7,9 @@ import { NotificationService } from './utility/notification.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  title = 'calculator';
+  currentRoute: string = 'home'
+  title = 'Event Calculator Active';
+  home: boolean = true;
 
   constructor(private notifyService: NotificationService) {}
 
@@ -16,5 +18,12 @@ export class AppComponent implements OnInit {
   // For how-to reference..
   showHtmlToaster(){
     this.notifyService?.showHTMLMessage("<h2>Data shown successfully !!</h2>", "Notification")
+  }
+
+  setCurrentRoute = (currentRoute: string) => {
+    this.currentRoute = currentRoute
+    this.title = currentRoute == '/' ? "Event Calculator is Active" : "Redux Calculator is Active";
+    this.home = currentRoute == '/';
+    this.home ? this.notifyService.showInfoWithTimeout('Switched to Event Calculator', '', 3000) : this.notifyService.showInfoWithTimeout('Switched to Redux Calculator', '', 3000);
   }
 }
