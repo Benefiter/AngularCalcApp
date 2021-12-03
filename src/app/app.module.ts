@@ -19,6 +19,8 @@ import { ReduxcalcoperandComponent } from './components/Calculators/ReduxCalcula
 import { ReduxcalculatorComponent } from './components/Calculators/ReduxCalculator/reduxcalculator/reduxcalculator.component';
 import { NotificationService } from './utility/notification.service';
 import { RouterModule, Routes } from '@angular/router';
+import { ChartComponent } from './components/charts/chart/chart.component';
+import { ChartModule } from 'angular2-chartjs';
 
 const appRoutes: Routes = [
   {path: '', component: CalculatorComponent},
@@ -37,6 +39,7 @@ const appRoutes: Routes = [
     ReduxcalcheaderComponent,
     ReduxcalcoperandComponent,
     ReduxcalculatorComponent,
+    ChartComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,7 +51,8 @@ const appRoutes: Routes = [
       positionClass: 'toast-top-left',
       preventDuplicates: true,
     }),
-    RouterModule.forRoot(appRoutes, {enableTracing: true})
+    RouterModule.forRoot(appRoutes, {enableTracing: true}),
+    ChartModule,
   ],
   providers: [NotificationService, ToastrService],
   bootstrap: [AppComponent],

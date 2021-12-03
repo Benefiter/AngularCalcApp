@@ -44,8 +44,6 @@ export class IconComponent implements OnInit {
 
   colorStyle() : any {
     const style = `{'color': '${this.color}'}`;
-    console.log('style');
-    console.log(style);
     return style;
   }
 
