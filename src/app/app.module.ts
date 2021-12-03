@@ -51,7 +51,7 @@ const appRoutes: Routes = [
       positionClass: 'toast-top-left',
       preventDuplicates: true,
     }),
-    RouterModule.forRoot(appRoutes, {enableTracing: true}),
+    RouterModule.forRoot(appRoutes, {enableTracing: false}),
     ChartModule,
   ],
   providers: [NotificationService, ToastrService],

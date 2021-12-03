@@ -2,25 +2,20 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ToastrService } from 'ngx-toastr';
 import { toastrService } from 'src/app/testing/stubs';
 import { ReduxcalcbuttonComponent } from './reduxcalcbutton.component';
-import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import { INITIAL_STATE } from 'src/app/redux/calculator.state.model';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
-import { IAppStore } from './../../../../redux/calculator.state.model';
-import { IAppState } from './../../../../store';
 
 describe('ReduxcalcbuttonComponent', () => {
   let component: ReduxcalcbuttonComponent;
   let fixture: ComponentFixture<ReduxcalcbuttonComponent>;
   let de: DebugElement;
   let calculatorButtons: Array<DebugElement>;
-  let storeMock: { dispatch: any };
-  const initialState = INITIAL_STATE;
+  let storeMock: { dispatch: any};
 
   beforeEach(async () => {
     storeMock = {
-      dispatch: jasmine.createSpy('dispatch'),
+      dispatch: jasmine.createSpy('dispatch')
     };
 
     await TestBed.configureTestingModule({

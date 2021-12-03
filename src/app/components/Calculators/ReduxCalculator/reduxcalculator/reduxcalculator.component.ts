@@ -30,13 +30,9 @@ export class ReduxcalculatorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store
-      .select('calculatorState')
-      .subscribe((state) => (this.operand = state.operand));
-    this.store
-      .select('calculatorState')
-      .subscribe((state) => (this.prevOperand = state.prevOperand));
     this.store.select('calculatorState').subscribe((state) => {
+      this.operand = state.operand;
+      this.prevOperand = state.prevOperand;
       const { currentValue } = state;
       if (this.currentValue !== currentValue) {
         this.notifyService?.showInfoWithTimeout(

@@ -1,4 +1,3 @@
-import { Action, AnyAction } from 'redux';
 import { ICalcResult } from './calcResult';
 
 export const SET_OPERAND = 'SET_OPERAND';

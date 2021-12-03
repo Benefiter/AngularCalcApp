@@ -1,5 +1,5 @@
 export interface ICalcResult {
-  timeStamp: Date;
+  timestamp: string;
   value: Number;
 }
 

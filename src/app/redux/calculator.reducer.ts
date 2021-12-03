@@ -17,7 +17,10 @@ const updateHistory = (
   resultHistory: ICalcResult[] | undefined,
   result: ICalcResult
 ) => {
-  return resultHistory ? [...resultHistory, result] : [];
+  console.log('updating history **********');
+  console.log('result');
+  console.log(result);
+  return resultHistory ? [...resultHistory, result] : [result];
 };
 
 const handleButtonClick = (state: IAppState, button: string) => {
@@ -114,15 +117,11 @@ const handleOperationButton = (state: IAppState, operation: string) => {
     return;
 
   if (state.currentOperation !== '') {
-    const result = execute(
-      state.currentOperation,
-      state.operand,
-      state.prevOperand
-    ).toString();
-    state.prevOperand = `${result} ${operation}`;
+    execute(state);
+    state.prevOperand = `${state.operand} ${operation}`;
+    state.currentValue = Number(state.operand);
     state.operand = '';
     state.currentOperation = operation;
-    state.currentValue = Number(result);
     return;
   }
   state.currentOperation = operation;
@@ -132,32 +131,43 @@ const handleOperationButton = (state: IAppState, operation: string) => {
 
 const handleExecuteButton = (state: IAppState) => {
   if (state.prevOperand === '' || state.operand === '') return;
-  state.operand = execute(
-    state.currentOperation,
-    state.operand,
-    state.prevOperand
-  ).toString();
+  execute(state);
   state.prevOperand = '';
   state.currentOperation = '';
   state.currentValue = Number(state.operand);
 };
 
-const execute = (operation: string, operand: string, prevOperand: string) => {
-  const theOperand = Number(operand);
+const execute = (state: IAppState) => {
+  const { currentOperation, operand, prevOperand } = state;
 
-  switch (operation) {
+  const theOperand = Number(operand);
+  let result: Number | undefined;
+  switch (currentOperation) {
     case '+':
-      return (Number(getPrevOperand(prevOperand)) + theOperand).toString();
+      result = Number(getPrevOperand(prevOperand)) + theOperand;
+      break;
     case '*':
-      return (Number(getPrevOperand(prevOperand)) * theOperand).toString();
+      result = Number(getPrevOperand(prevOperand)) * theOperand;
+      break;
     case '-':
-      return (Number(getPrevOperand(prevOperand)) - theOperand).toString();
+      result = Number(getPrevOperand(prevOperand)) - theOperand;
+      break;
     case '/':
-      return (Number(getPrevOperand(prevOperand)) / theOperand).toString();
+      result = Number(getPrevOperand(prevOperand)) / theOperand;
+      break;
     default:
-      // Should never happen...
-      return Number.NaN;
+    // Should never happen...
   }
+
+  if (!result) return Number.NaN;
+
+  state.operand = result.toString();
+  state.resultHistory = [
+    ...state.resultHistory,
+    { timestamp: new Date().toString(), value: result },
+  ];
+
+  return result;
 };
 
 const getPrevOperand = (prevOperand: string) => {

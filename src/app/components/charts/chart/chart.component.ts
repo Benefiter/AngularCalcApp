@@ -1,74 +1,78 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { IAppStore, ICalcResult } from 'src/app/redux/calculator.state.model';
+import IChartSample from 'src/app/models/chartSample';
 
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html',
-  styleUrls: ['./chart.component.css']
+  styleUrls: ['./chart.component.css'],
 })
 export class ChartComponent implements OnInit {
   type: string;
   data: object | undefined;
   options: object | undefined;
+  currentValue: Number | undefined;
+  chartSamples: IChartSample[] = [];
 
-  constructor() {
-    this.type = 'bar';
+  constructor(private store: Store<IAppStore>) {
+    store.select('calculatorState').subscribe;
+    this.type = 'line';
     this.data = {
-      labels: ["Instacia 1", "Instacia 2", "Instacia 3", "Instacia 4", "Instacia 5", "Instacia 6", "Instacia 7"],
-      datasets: [   
-        
+      datasets: [
         {
-          label: "Maximo",
-          data: [165, 159, 180, 181, 156, 155, 140],
-          type: 'line',
-          borderColor:'#eddb1c',
-          backgroundColor:'#FFF3D6',
-          fill: false
+          label: 'Calculator Value Trend',
+          data: [
+          ],
         },
-        {
-          label: "Promedio",
-          data: [115, 109, 130, 131, 106, 105, 90],
-          type: 'line',
-          borderColor:'#FF7A96',
-          backgroundColor:'#EAC3CC',
-          fill: false
-        },
-        {
-          label: "Minimo",
-          data: [65, 59, 80, 81, 56, 55, 40],
-          type: 'line',
-          borderColor:'#4BB7FF',
-          backgroundColor:'#CDEBFF',
-          fill: false
-        }
-        ,{
-          label: "Error",
-          data: [65, 59, 80, 81, 56, 55, 40],
-          borderColor:'#FF7A96',
-          borderWidth: 1,
-          backgroundColor:'#EAC3CC'
-        },
-        {
-          label: "NOK",
-          data: [5, 9, 10, 11,6, 5, 10],
-          borderColor:'#4BB7FF',
-          borderWidth: 1,
-          backgroundColor:'#CDEBFF'
-        },
-        {
-          label: "PROCESING",
-          data: [51, 19, 110, 111,16, 15, 110],
-          borderColor:'#FFD36C',
-          borderWidth: 1,
-          backgroundColor:'#FFF3D6'
-        }
-      ]
+      ],
     };
     this.options = {
-      responsive: true,
+      scales: {
+        xAxes: [
+          {
+            type: 'time',
+            ticks: {
+              autoSkip: true,
+              maxTicksLimit: 10,
+            },
+          },
+        ],
+      },
     };
-   }
-
-  ngOnInit(): void {
   }
 
+  ngOnInit(): void {
+    this.store?.select('calculatorState')?.subscribe((state) => {
+      const { currentValue } = state;
+      if (this.currentValue !== currentValue) {
+        this.currentValue = currentValue;
+        console.log('resulthistory');
+        console.log(state.resultHistory);
+        this.updateChartData(state.resultHistory);
+      }
+    });
+  }
+
+  updateChartData(samples: ICalcResult[]) {
+    console.log('updateChartData called');
+    if (samples == null) return;
+    if (samples.length == this.chartSamples.length) return;
+
+    this.chartSamples = samples.map((sample) => ({
+      x: sample.timestamp,
+      y: sample.value.toString(),
+    }));
+    this.data = {
+      ...this.data,
+      datasets: [
+        {
+          label: 'Calculator Value Trend',
+          data: [...this.chartSamples],
+        },
+      ],
+    };
+    console.log('data ****');
+    console.log(this.data);
+  }
 }
