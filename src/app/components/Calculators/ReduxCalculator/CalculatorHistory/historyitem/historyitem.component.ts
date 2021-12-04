@@ -9,6 +9,7 @@ import { ApphistoryService } from './../../../../../utility/apphistory.service';
 })
 export class HistoryitemComponent implements OnInit {
   @Input() id: string;
+  @Input() margin: string = '1px';
   text: string;
   history: IResultHistoryCacheItem | undefined;
 
@@ -19,7 +20,6 @@ export class HistoryitemComponent implements OnInit {
   ngOnInit(): void {
     this.history = this.appHistoryService.getItem(this.id);
     this.text = this.setText();
-
   }
 
   setText = () => {
