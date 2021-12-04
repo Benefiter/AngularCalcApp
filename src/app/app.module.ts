@@ -23,8 +23,8 @@ import { ChartComponent } from './components/charts/chart/chart.component';
 import { ChartModule } from 'angular2-chartjs';
 
 const appRoutes: Routes = [
-  {path: '', component: CalculatorComponent},
-  {path: 'redux', component: ReduxcalculatorComponent}
+  {path: '', component: CalculatorComponent, data: {animation: 'isLeft'}},
+  {path: 'redux', component: ReduxcalculatorComponent, data: {animation: 'isRight'}}
 ]
 @NgModule({
   declarations: [
@@ -43,6 +43,7 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     StoreModule.forRoot({ calculatorState: calculatorStateReducer }),
     FontAwesomeModule,
     BrowserAnimationsModule,

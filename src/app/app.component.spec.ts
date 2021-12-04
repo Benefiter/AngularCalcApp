@@ -3,12 +3,14 @@ import { ToastrService } from 'ngx-toastr';
 import { AppComponent } from './app.component';
 import { toastrService } from './testing/stubs';
 import { RouterTestingModule } from "@angular/router/testing";
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
         RouterTestingModule.withRoutes([]),
+        NoopAnimationsModule
       ],
       declarations: [
         AppComponent
