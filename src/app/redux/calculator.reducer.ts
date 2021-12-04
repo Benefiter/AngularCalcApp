@@ -56,7 +56,7 @@ const _calculatorStateReducer = createReducer(
     ...state,
     resultHistoryCache: updateResultHistoryCache(state),
     resultHistory: [],
-    cacheId: state.cacheId++
+    cacheId: state.cacheId + 1
   }})
 );
 
@@ -182,7 +182,7 @@ const execute = (state: IAppState) => {
   state.operand = result.toString();
   state.resultHistory = [
     ...state.resultHistory,
-    { timestamp: new Date().toString(), value: result },
+    { timestamp: new Date().toISOString().toString(), value: result },
   ];
 
   return result;

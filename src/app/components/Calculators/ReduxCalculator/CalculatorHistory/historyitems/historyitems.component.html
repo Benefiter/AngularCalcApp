@@ -1,0 +1,7 @@
+<div class="history-items-container" [hidden]="hidden">
+  <div class="title">Calculator History</div>
+  <app-historyitem
+    *ngFor="let item of historyCache"
+    id={{item.id}}
+  ></app-historyitem>
+</div>

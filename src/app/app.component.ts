@@ -3,7 +3,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { NotificationService } from './utility/notification.service';
 import { RouterOutlet } from '@angular/router';
-import { slider, fader } from './route-animations';
+import { fader } from './route-animations';
 
 const CalculatorSwithNotifyTimeout = 1000;
 

@@ -1,17 +1,19 @@
-  <div class="chart">
-    <app-chart></app-chart>
+<div class="history-items">
+  <app-historyitems></app-historyitems>
+</div>
+<div class="chart">
+  <app-chart></app-chart>
+</div>
+<div class="calc-container">
+  <div class="calc-header">
+    <app-reduxcalcheader
+      operand="{{ operand }}"
+      prevOperand="{{ prevOperand }}"
+    ></app-reduxcalcheader>
   </div>
-  <div class="calc-container">
-    <div class="calc-header">
-      <app-reduxcalcheader
-        operand="{{ operand }}"
-        prevOperand="{{ prevOperand }}"
-      ></app-reduxcalcheader>
-    </div>
-    <app-reduxcalcbutton
-      *ngFor="let button of calculatorButtons"
-      class="{{ button.className }}"
-      text="{{ button.buttonName }}"
-    ></app-reduxcalcbutton>
-  </div>
-
+  <app-reduxcalcbutton
+    *ngFor="let button of calculatorButtons"
+    class="{{ button.className }}"
+    text="{{ button.buttonName }}"
+  ></app-reduxcalcbutton>
+</div>

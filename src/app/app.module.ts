@@ -21,6 +21,8 @@ import { NotificationService } from './utility/notification.service';
 import { RouterModule, Routes } from '@angular/router';
 import { ChartComponent } from './components/charts/chart/chart.component';
 import { ChartModule } from 'angular2-chartjs';
+import { HistoryitemComponent } from './components/Calculators/ReduxCalculator/CalculatorHistory/historyitem/historyitem.component';
+import { HistoryitemsComponent } from './components/Calculators/ReduxCalculator/CalculatorHistory/historyitems/historyitems.component';
 
 const appRoutes: Routes = [
   {path: '', component: CalculatorComponent, data: {animation: 'isLeft'}},
@@ -40,6 +42,8 @@ const appRoutes: Routes = [
     ReduxcalcoperandComponent,
     ReduxcalculatorComponent,
     ChartComponent,
+    HistoryitemComponent,
+    HistoryitemsComponent,
   ],
   imports: [
     BrowserModule,

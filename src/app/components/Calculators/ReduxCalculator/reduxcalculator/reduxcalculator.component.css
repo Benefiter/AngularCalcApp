@@ -29,6 +29,12 @@
     padding-bottom: 40px;
   }
 
+  .history-items {
+    margin: auto;
+    width: 400px;
+    padding-bottom: 40px;
+  }
+
   .content-style {
     display: flex;
     flex-direction: column;
