@@ -29,4 +29,8 @@ export class NotificationService {
       timeOut :  timespan ?? 0
     })
   }
+
+  showInfo(title: string, message: string){
+    this.toastr.info(message, title, {timeOut: 0})
+  }
 }

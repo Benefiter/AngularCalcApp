@@ -8,6 +8,7 @@ import {
   setOperator,
   updateResultsHistory,
   setButtonClick,
+  clearResultsHistory,
 } from './calculator.actions';
 import { Action, createReducer, on } from '@ngrx/store';
 import { cloneDeep } from 'lodash';
@@ -17,9 +18,6 @@ const updateHistory = (
   resultHistory: ICalcResult[] | undefined,
   result: ICalcResult
 ) => {
-  console.log('updating history **********');
-  console.log('result');
-  console.log(result);
   return resultHistory ? [...resultHistory, result] : [result];
 };
 
@@ -39,7 +37,12 @@ const _calculatorStateReducer = createReducer(
   on(updateResultsHistory, (state, { sample }) => ({
     ...state,
     resultHistory: updateHistory([...state.resultHistory], sample),
-  }))
+  })),
+  on(clearResultsHistory, (state, {}) => {
+    return {
+    ...state,
+    resultHistory: [],
+  }})
 );
 
 export const calculatorStateReducer = (

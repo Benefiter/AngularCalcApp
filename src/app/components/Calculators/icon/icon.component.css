@@ -1,3 +1,9 @@
 .button-icon {
     background-color: rgb(179, 236, 247);
+    opacity: 80%;
+}
+
+.button-icon:hover {
+    opacity: 100%;
+    cursor: pointer;
 }

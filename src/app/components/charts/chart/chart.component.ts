@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IAppStore, ICalcResult } from 'src/app/redux/calculator.state.model';
 import IChartSample from 'src/app/models/chartSample';
+import { clearResultsHistory } from 'src/app/redux/calculator.actions';
+import { NotificationService } from 'src/app/utility/notification.service';
 
 @Component({
   selector: 'app-chart',
@@ -14,8 +16,9 @@ export class ChartComponent implements OnInit {
   options: object | undefined;
   currentValue: Number | undefined;
   chartSamples: IChartSample[] = [];
+  hidden: boolean = false;
 
-  constructor(private store: Store<IAppStore>) {
+  constructor(private store: Store<IAppStore>, private notifyService: NotificationService) {
     store.select('calculatorState').subscribe;
     this.type = 'line';
     this.data = {
@@ -34,28 +37,35 @@ export class ChartComponent implements OnInit {
             type: 'time',
             ticks: {
               autoSkip: true,
-              maxTicksLimit: 10,
+              maxTicksLimit: 5,
             },
           },
         ],
+        yAxes: [
+          {
+            ticks: {
+              autoSkip: true,
+              maxTicksLimit: 5,
+            },
+          },
+        ],  
       },
     };
   }
 
   ngOnInit(): void {
     this.store?.select('calculatorState')?.subscribe((state) => {
-      const { currentValue } = state;
+      const { currentValue, resultHistory } = state;
       if (this.currentValue !== currentValue) {
         this.currentValue = currentValue;
-        console.log('resulthistory');
-        console.log(state.resultHistory);
         this.updateChartData(state.resultHistory);
       }
+      if (resultHistory?.length == 0) this.updateChartData(resultHistory);
     });
+    this.notifyService.showInfo('Chart','Generate calculator results and watch them trend on the chart!');
   }
 
   updateChartData(samples: ICalcResult[]) {
-    console.log('updateChartData called');
     if (samples == null) return;
     if (samples.length == this.chartSamples.length) return;
 
@@ -72,7 +82,11 @@ export class ChartComponent implements OnInit {
         },
       ],
     };
-    console.log('data ****');
-    console.log(this.data);
   }
+
+  toggleHidden = () => {
+    this.hidden = !this.hidden;
+  }
+
+  clearChartHistory = () => this.store.dispatch(clearResultsHistory());
 }

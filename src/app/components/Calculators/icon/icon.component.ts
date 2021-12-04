@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { faTimes, faDivide, faPlus, faMinus, faEquals } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faDivide, faPlus, faMinus, faEquals, faWindowMinimize, faWindowRestore, faEraser } from '@fortawesome/free-solid-svg-icons';
 
-type IconType = 'times' | 'divide' | 'plus' | 'minus' | 'equals';
+type IconType = 'times' | 'divide' | 'plus' | 'minus' | 'equals' | 'collapse' | 'expand' | 'clear'
 type ColorType = 'red' | 'black' | 'green' | 'blue';
 
 @Component({
@@ -38,6 +38,15 @@ export class IconComponent implements OnInit {
         break;
       case 'equals':
         this.theIcon = faEquals;
+        break;
+      case 'expand':
+        this.theIcon = faWindowMinimize;
+        break;
+      case 'collapse':
+        this.theIcon = faWindowRestore;
+        break;
+      case 'clear':
+        this.theIcon = faEraser;
         break;
     }
   }
