@@ -3,6 +3,8 @@ import { operators } from 'src/app/constants';
 import { CalculatorButton, CalculatorButtonContext } from 'src/app/models/calculatorButtons';
 import { NotificationService } from 'src/app/utility/notification.service';
 
+const ResultTimeout = 1000;
+
 @Component({
   selector: 'app-calculator',
   templateUrl: './calculator.component.html',
@@ -92,7 +94,7 @@ export class CalculatorComponent implements OnInit {
       this.prevOperand = `${result} ${event}`;
       this.operand = '';
       this.currentOperation = event;
-      this.notifyService?.showInfoWithTimeout("Result", result, 3000 )
+      this.notifyService?.showInfoWithTimeout("Result", result, ResultTimeout )
       return;
     }
     this.currentOperation = event;
@@ -105,7 +107,7 @@ export class CalculatorComponent implements OnInit {
     this.operand = this.execute('').toString();
     this.prevOperand = '';
     this.currentOperation = '';
-    this.notifyService?.showInfoWithTimeout("Result", this.operand, 3000 )
+    this.notifyService?.showInfoWithTimeout("Result", this.operand, ResultTimeout )
   }
 
   execute(operation: string) {

@@ -31,6 +31,8 @@ export class NotificationService {
   }
 
   showInfo(title: string, message: string){
-    this.toastr.info(message, title, {timeOut: 0})
+    return this.toastr.info(message, title, {timeOut: 0})
   }
+
+  remove = (id: number) => this.toastr.remove(id);
 }

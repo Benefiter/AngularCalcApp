@@ -4,6 +4,7 @@ import { IAppStore, ICalcResult } from 'src/app/redux/calculator.state.model';
 import IChartSample from 'src/app/models/chartSample';
 import { clearResultsHistory } from 'src/app/redux/calculator.actions';
 import { NotificationService } from 'src/app/utility/notification.service';
+import { ActiveToast } from 'ngx-toastr';
 
 @Component({
   selector: 'app-chart',
@@ -17,6 +18,7 @@ export class ChartComponent implements OnInit {
   currentValue: Number | undefined;
   chartSamples: IChartSample[] = [];
   hidden: boolean = false;
+  activeToast: ActiveToast<any> | undefined;
 
   constructor(private store: Store<IAppStore>, private notifyService: NotificationService) {
     store.select('calculatorState').subscribe;
@@ -62,7 +64,12 @@ export class ChartComponent implements OnInit {
       }
       if (resultHistory?.length == 0) this.updateChartData(resultHistory);
     });
-    this.notifyService.showInfo('Chart','Generate calculator results and watch them trend on the chart!');
+    // Need to change the notify message to handle bug in 3rd party app...
+    this.chartSamples.length == 0 && (this.activeToast = this.notifyService.showInfo('',`Generate calculator results and watch them trend on the chart! (${new Date().getMilliseconds()})`));
+  }
+
+  ngOnDestroy(): void {
+    this.activeToast && this.activeToast.toastRef.close();
   }
 
   updateChartData(samples: ICalcResult[]) {

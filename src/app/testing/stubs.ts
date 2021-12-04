@@ -18,6 +18,9 @@ export const toastrService = {
         title?: string,
         override?: Partial<IndividualConfig>
       ) => {},
+    remove: (
+        id: number
+    ) => {}
     };
 
 export const storeMock = {

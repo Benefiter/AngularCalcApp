@@ -1,4 +1,3 @@
-import { ICalcResult } from './calcResult';
 import {
   SET_OPERAND,
   SET_PREVOPERAND,
@@ -7,9 +6,8 @@ import {
   SET_PREVVALUE,
   UPDATE_HISTORY,
   CLEAR_HISTORY,
-  IAction,
 } from './actions';
-import { Action } from 'redux';
+import { ICalcResult } from './redux/calculator.state.model';
 
 export interface IAppState {
   operand: string;

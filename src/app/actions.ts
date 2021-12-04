@@ -1,4 +1,4 @@
-import { ICalcResult } from './calcResult';
+import { ICalcResult } from './redux/calculator.state.model';
 
 export const SET_OPERAND = 'SET_OPERAND';
 export const SET_PREVOPERAND = 'SET_PREVOPERAND';

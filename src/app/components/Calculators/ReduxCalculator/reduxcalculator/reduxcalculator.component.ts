@@ -5,7 +5,7 @@ import {
   CalculatorButtonContext,
 } from 'src/app/models/calculatorButtons';
 import { Store } from '@ngrx/store';
-import { IAppStore } from 'src/app/redux/calculator.state.model';
+import { IAppStore, ICalcResult } from 'src/app/redux/calculator.state.model';
 import { operators } from './../../../../constants';
 
 @Component({
@@ -19,6 +19,7 @@ export class ReduxcalculatorComponent implements OnInit {
   currentValue: Number;
   operators: Array<string>;
   calculatorButtons: CalculatorButton[];
+  chartSamples: ICalcResult[] = [];
 
   constructor(
     private notifyService: NotificationService,
@@ -33,14 +34,15 @@ export class ReduxcalculatorComponent implements OnInit {
     this.store.select('calculatorState').subscribe((state) => {
       this.operand = state.operand;
       this.prevOperand = state.prevOperand;
-      const { currentValue } = state;
-      if (this.currentValue !== currentValue) {
+      const { currentValue, resultHistory } = state;
+      if (this.currentValue !== currentValue && this.chartSamples.length != 0) {
         this.notifyService?.showInfoWithTimeout(
           'Result',
           currentValue.toString(),
           3000
         );
         this.currentValue = currentValue;
+        this.chartSamples = [...resultHistory];
       }
     });
   }

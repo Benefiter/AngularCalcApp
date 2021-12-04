@@ -3,6 +3,8 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { NotificationService } from './utility/notification.service';
 
+const CalculatorSwithNotifyTimeout = 1000;
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -26,12 +28,12 @@ export class AppComponent implements OnInit {
           ? this.notifyService.showInfoWithTimeout(
               'Switched to Event Calculator',
               '',
-              3000
+              CalculatorSwithNotifyTimeout
             )
           : this.notifyService.showInfoWithTimeout(
               'Switched to Redux Calculator',
               '',
-              3000
+              CalculatorSwithNotifyTimeout
             );
       });
   }
