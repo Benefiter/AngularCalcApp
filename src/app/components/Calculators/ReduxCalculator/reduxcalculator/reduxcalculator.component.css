@@ -2,7 +2,7 @@
     display: grid;
     justify-content: center;
     align-content: center;
-    min-height: 100vh;
+    /* min-height: 100vh; */
     grid-template-columns: repeat(4, 100px);
     grid-template-rows: minmax(100px, auto) repeat(5, 100px);
   }
@@ -22,15 +22,15 @@
   .span-two {
     grid-column: span 2;
   }
-  
-  .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
 
   .chart {
+    margin: auto;
     width: 400px;
-    height: 100px;
+    padding-bottom: 40px;
+  }
+
+  .content-style {
+    display: flex;
+    flex-direction: column;
   }
   
