@@ -22,6 +22,10 @@ export const updateResultsHistory = createAction(
     props<{sample: ICalcResult}>()
 )
 
+export const cacheResultHistory = createAction(
+    CalculatorActionTypes.CacheHistory
+)
+
 export const clearResultsHistory = createAction(
     CalculatorActionTypes.ClearHistory
 )

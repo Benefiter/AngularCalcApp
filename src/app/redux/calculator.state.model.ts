@@ -3,6 +3,11 @@ export interface ICalcResult {
   value: Number;
 }
 
+export interface IResultHistoryCacheItem {
+  id: number;
+  resultHistory: ICalcResult[];
+}
+
 export interface IAppState {
   operand: string;
   prevOperand: string;
@@ -10,6 +15,8 @@ export interface IAppState {
   currentValue: Number;
   prevValue: Number;
   resultHistory: ICalcResult[];
+  cacheId: number
+  resultHistoryCache: IResultHistoryCacheItem[];
 }
 
 export interface IAppStore {
@@ -23,5 +30,7 @@ export const INITIAL_STATE: IAppState = {
   currentValue: 0,
   prevValue: 0,
   resultHistory: [],
+  cacheId: 1,
+  resultHistoryCache: []
 };
 

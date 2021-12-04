@@ -14,3 +14,7 @@
 .icon:hover {
     background-color: aquamarine;
 }
+
+.left {
+    float: right;
+}

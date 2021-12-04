@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { faTimes, faDivide, faPlus, faMinus, faEquals, faWindowMinimize, faWindowRestore, faEraser } from '@fortawesome/free-solid-svg-icons';
+import { faSave, faWindowMinimize, faWindowRestore } from '@fortawesome/free-regular-svg-icons';
+import { faDivide, faEquals, faEraser, faMinus, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 
-type IconType = 'times' | 'divide' | 'plus' | 'minus' | 'equals' | 'collapse' | 'expand' | 'clear'
+type IconType = 'times' | 'divide' | 'plus' | 'minus' | 'equals' | 'collapse' | 'expand' | 'clear' | 'save'
 type ColorType = 'red' | 'black' | 'green' | 'blue';
 
 @Component({
@@ -12,6 +13,7 @@ type ColorType = 'red' | 'black' | 'green' | 'blue';
 export class IconComponent implements OnInit {
   @Input() icon: IconType;
   @Input() color: ColorType;
+  @Input() title: string;
   @Output() iconClick = new EventEmitter();
 
   theIcon = faTimes;
@@ -20,6 +22,7 @@ export class IconComponent implements OnInit {
     this.icon = 'times';
     this.color = 'black';
     this.theIcon = faTimes;
+    this.title= this.icon;
    }
 
   ngOnInit(): void {
@@ -39,15 +42,18 @@ export class IconComponent implements OnInit {
       case 'equals':
         this.theIcon = faEquals;
         break;
-      case 'expand':
+      case 'collapse':
         this.theIcon = faWindowMinimize;
         break;
-      case 'collapse':
+      case 'expand':
         this.theIcon = faWindowRestore;
         break;
       case 'clear':
         this.theIcon = faEraser;
         break;
+      case 'save':
+        this.theIcon = faSave;
+         break;  
     }
   }
 

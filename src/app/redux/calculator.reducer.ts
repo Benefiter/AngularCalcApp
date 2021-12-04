@@ -9,6 +9,7 @@ import {
   updateResultsHistory,
   setButtonClick,
   clearResultsHistory,
+  cacheResultHistory,
 } from './calculator.actions';
 import { Action, createReducer, on } from '@ngrx/store';
 import { cloneDeep } from 'lodash';
@@ -27,6 +28,13 @@ const handleButtonClick = (state: IAppState, button: string) => {
   return { ...updatedState, button };
 };
 
+const updateResultHistoryCache = (state:IAppState) => {
+  const cacheResultHistory = cloneDeep(state.resultHistoryCache);
+  const resultHistory = cloneDeep(state.resultHistory);
+  cacheResultHistory.push({id: state.cacheId, resultHistory});
+  return cacheResultHistory;
+}
+
 const _calculatorStateReducer = createReducer(
   INITIAL_STATE,
   on(setOperand, (state, { operand }) => {
@@ -42,6 +50,13 @@ const _calculatorStateReducer = createReducer(
     return {
     ...state,
     resultHistory: [],
+  }}),
+  on(cacheResultHistory, (state, {}) => {
+    return {
+    ...state,
+    resultHistoryCache: updateResultHistoryCache(state),
+    resultHistory: [],
+    cacheId: state.cacheId++
   }})
 );
 

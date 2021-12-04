@@ -1,21 +1,40 @@
 <div class="chart-container">
-  <app-icon class="padding" icon="clear" color="black" (click)="clearChartHistory()"></app-icon>
   <app-icon
-    class="icon"
-    icon="collapse"
+    title="Reset trend"
+    icon="clear"
     color="black"
+    (click)="clearChartHistory()"
     [hidden]="hidden"
-    (click)="toggleHidden()"
   ></app-icon>
   <app-icon
-    class="icon"
+    title="Cache trend data"
+    icon="save"
+    color="black"
+    [hidden]="hidden || !hasSamples"
+    (click)="cacheTrend()"
+  ></app-icon>
+  <span
+    class="collapsed"
+    [ngStyle]="{ display: hidden ? 'inline-block' : 'none' }"
+    >Calculator value trend</span
+  >
+  <app-icon
+    title="Show trend"
+    class="left"
     icon="expand"
     color="black"
     [hidden]="!hidden"
     (click)="toggleHidden()"
   ></app-icon>
-  <span class="collapsed" [ngStyle]="{display: hidden ? 'inline-block' : 'none'}">Calculator value trend</span>
-  <div [ngStyle]="{display: hidden ? 'none' : 'block'}">
+  <app-icon
+    title="Hide trend"
+    class="left"
+    icon="collapse"
+    color="black"
+    [hidden]="hidden"
+    (click)="toggleHidden()"
+  ></app-icon>
+  <div [ngStyle]="{ display: hidden ? 'none' : 'block' }">
     <chart [type]="type" [data]="data" [options]="options"></chart>
   </div>
 </div>
