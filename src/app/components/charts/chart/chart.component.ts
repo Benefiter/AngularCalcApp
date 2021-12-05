@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IAppStore, ICalcResult } from 'src/app/redux/calculator.state.model';
-import IChartSample from 'src/app/models/chartSample';
 import {
   cacheResultHistory,
   clearResultsHistory,
@@ -10,8 +9,13 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { ActiveToast } from 'ngx-toastr';
 import { DndService } from '@ng-dnd/core';
 import { ApphistoryService } from '../../../services/apphistory.service';
-import { DragAndDropKeys, MAX_CHART_LINES } from 'src/app/constants';
-import { ChartLineColors } from './../../../constants';
+import { DragAndDropKeys } from 'src/app/constants';
+import {
+  MAX_CHART_LINES,
+  IChartData,
+  IChartServiceBehaviourSubjectData,
+} from './../../../services/chart-helper.constants';
+import { ChartHelperService } from './../../../services/chart-helper.service';
 
 @Component({
   selector: 'app-chart',
@@ -20,128 +24,103 @@ import { ChartLineColors } from './../../../constants';
 })
 export class ChartComponent implements OnInit {
   type: string;
-  data: any | undefined;
+  data: IChartData;
   options: object | undefined;
   currentValue: Number | undefined;
-  chartSamples: IChartSample[] = [];
   hidden: boolean = false;
   activeToast: ActiveToast<any> | undefined;
   hasSamples: boolean = false;
   droppedItemIds: string[] = [];
+  target: any;
+  targetId = 1;
 
   constructor(
     private store: Store<IAppStore>,
     private notifyService: NotificationService,
     private dnd: DndService,
-    private appHistoryService: ApphistoryService
+    private appHistoryService: ApphistoryService,
+    private helperService: ChartHelperService
   ) {
     store.select('calculatorState').subscribe;
     this.type = 'line';
-    this.data = {
-      datasets: [
-        {
-          label: 'Calculator Value Trend',
-          data: [],
-          backgroundColor: ChartLineColors[0],
-        },
-      ],
-    };
-    this.options = {
-      scales: {
-        xAxes: [
-          {
-            type: 'time',
-            ticks: {
-              autoSkip: true,
-              maxTicksLimit: 5,
-            },
-          },
-        ],
-        yAxes: [
-          {
-            ticks: {
-              autoSkip: true,
-              maxTicksLimit: 5,
-            },
-          },
-        ],
-      },
-    };
+    this.data = this.helperService.defaultChartDataState();
+    this.options = this.helperService.chartOptions();
   }
 
-  target: any
-  ngOnInit(): void {
-    this.target = this.dnd.dropTarget<{ id: string }>(DragAndDropKeys.historyItem, {
-      drop: (monitor) => {
-        const result = monitor.getItem();
-        result && this.handleDroppedHistoryItem(result.id);
-      },
-    });
+  initDragDropTarget = () => {
+    this.target = this.dnd.dropTarget<{ id: string }>(
+      DragAndDropKeys.historyItem,
+      {
+        drop: (monitor) => {
+          const result = monitor.getItem();
+          result && this.handleDroppedHistoryItem(result.id);
+        },
+      }
+    );
+  };
 
+  monitorCalculatorStoreChanges = () => {
     this.store?.select('calculatorState')?.subscribe((state) => {
       const { currentValue, resultHistory } = state;
       if (this.currentValue !== currentValue) {
         this.currentValue = currentValue;
-        this.updateChartData(state.resultHistory);
+       resultHistory && this.updateChartData(state.resultHistory);
       }
       if (resultHistory?.length == 0) this.updateChartData(resultHistory);
       this.hasSamples = resultHistory?.length > 0;
     });
+  };
+
+  instructionsNotify = () => {
     // Need to change the notify message to handle bug in 3rd party app...
-    if (this.chartSamples.length == 0 && this.appHistoryService.getCount() == 0)
-      (this.activeToast = this.notifyService.showInfo(
+    if (!this.helperService.hasDataForChart(this.targetId) && this.appHistoryService.getCount() == 0)
+      this.activeToast = this.notifyService.showInfo(
         '',
         `Generate calculator results and watch them trend on the chart! (${new Date().getMilliseconds()})`
-      ));
+      );
+  };
+
+  ngOnInit(): void {
+    this.initDragDropTarget();
+    this.monitorCalculatorStoreChanges();
+    this.instructionsNotify();
+    this.helperService.register(this.targetId);
+    this.helperService.chartDataSource.subscribe(chartDataUpdate => (chartDataUpdate.targetId == this.targetId) && this.updateChartDataFromService(chartDataUpdate));
   }
 
   ngOnDestroy(): void {
     this.activeToast?.toastRef.close();
     this.target?.unsubscribe();
+    this.helperService.chartDataSource.unsubscribe();
   }
 
-  updateChartData(samples: ICalcResult[]) {
-    if (samples == null) return;
-    if (samples.length == this.chartSamples.length) return;
+  updateChartDataFromService = (chartData: IChartServiceBehaviourSubjectData) => {
+    this.data = chartData?.data;
+    if (this.data.datasets.length == MAX_CHART_LINES) {
+      this.notifyService.showInfo(
+        '',
+        'Maximum number of chart lines has been reached.'
+      );
+    }
+  }
 
-    this.chartSamples = samples.map((sample) => ({
-      x: sample.timestamp,
-      y: sample.value.toString(),
-    }));
-    this.data = {
-      ...this.data,
-      datasets: [
-        {
-          ...this.data.datasets[0],
-          data: [...this.chartSamples],
-        },
-      ],
-    };
+  updateChartData = (samples: ICalcResult[]) => {
+    this.helperService.updateChartData(this.targetId, samples);
   }
 
   toggleHidden = () => {
     this.hidden = !this.hidden;
   };
 
-  clearChartHistory = () => {
+  clearChart = () => {
     this.store.dispatch(clearResultsHistory());
-    this.data = {
-      ...this.data,
-      datasets: [
-        {
-          ...this.data.datasets[0],
-          data: [],
-        },
-      ],
-    };
+    this.helperService.clearChart(this.targetId);
     this.droppedItemIds = [];
   };
 
   cacheTrend = () => this.store.dispatch(cacheResultHistory());
 
   handleDroppedHistoryItem = (id: string) => {
-    console.log('this.data');
-    console.log(this.data);
 
     if (this.data.datasets.length == MAX_CHART_LINES) {
       return;
@@ -155,29 +134,11 @@ export class ChartComponent implements OnInit {
 
     if (historyItem == null) return;
 
-    this.data = {
-      ...this.data,
-      datasets: [
-        ...this?.data?.datasets,
-        {
-          label: id,
-          backgroundColor: ChartLineColors[this.data.datasets.length],
-          data: historyItem?.resultHistory?.map((h) => ({
-            x: h.timestamp,
-            y: h.value,
-          })),
-        },
-      ],
-    };
+    const chartData = historyItem?.resultHistory?.map((h) => ({
+      x: h.timestamp,
+      y: h.value.toString(),
+    }));
 
-    // purge empty datasets
-    this.data = {
-      ...this.data,
-      datasets: this.data.datasets.filter((d: { data: string | any[]; }) => d.data.length > 0)
-    }
-    if (this.data.datasets.length == MAX_CHART_LINES) {
-      this.notifyService.showInfo('', 'Maximum number of chart lines has been reached.');
-    }
-
+    this.helperService.addChart(this.targetId, chartData, historyItem.id.toString());
   };
 }
