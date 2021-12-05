@@ -17,7 +17,7 @@ import { ReduxcalcbuttonComponent } from './components/Calculators/ReduxCalculat
 import { ReduxcalcheaderComponent } from './components/Calculators/ReduxCalculator/reduxcalcheader/reduxcalcheader.component';
 import { ReduxcalcoperandComponent } from './components/Calculators/ReduxCalculator/reduxcalcoperand/reduxcalcoperand.component';
 import { ReduxcalculatorComponent } from './components/Calculators/ReduxCalculator/reduxcalculator/reduxcalculator.component';
-import { NotificationService } from './utility/notification.service';
+import { NotificationService } from './services/notification.service';
 import { RouterModule, Routes } from '@angular/router';
 import { ChartComponent } from './components/charts/chart/chart.component';
 import { ChartModule } from 'angular2-chartjs';

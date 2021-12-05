@@ -6,10 +6,10 @@ import {
   cacheResultHistory,
   clearResultsHistory,
 } from 'src/app/redux/calculator.actions';
-import { NotificationService } from 'src/app/utility/notification.service';
+import { NotificationService } from 'src/app/services/notification.service';
 import { ActiveToast } from 'ngx-toastr';
 import { DndService } from '@ng-dnd/core';
-import { ApphistoryService } from './../../../utility/apphistory.service';
+import { ApphistoryService } from '../../../services/apphistory.service';
 import { DragAndDropKeys, MAX_CHART_LINES } from 'src/app/constants';
 import { ChartLineColors } from './../../../constants';
 

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ApphistoryService } from './../../../../../utility/apphistory.service';
+import { ApphistoryService } from '../../../../../services/apphistory.service';
 import { DndService } from '@ng-dnd/core';
 import { DragAndDropKeys } from 'src/app/constants';
 

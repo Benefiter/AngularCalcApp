@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { operators } from 'src/app/constants';
 import { CalculatorButton, CalculatorButtonContext } from 'src/app/models/calculatorButtons';
-import { NotificationService } from 'src/app/utility/notification.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 const ResultTimeout = 1000;
 

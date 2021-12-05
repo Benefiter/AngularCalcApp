@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
-import { NotificationService } from './utility/notification.service';
+import { NotificationService } from './services/notification.service';
 import { RouterOutlet } from '@angular/router';
 import { fader } from './route-animations';
 

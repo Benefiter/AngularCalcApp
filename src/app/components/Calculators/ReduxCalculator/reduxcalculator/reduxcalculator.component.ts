@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { NotificationService } from 'src/app/utility/notification.service';
+import { NotificationService } from 'src/app/services/notification.service';
 import {
   CalculatorButton,
   CalculatorButtonContext,
