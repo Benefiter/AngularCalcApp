@@ -2,9 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IAppStore, ICalcResult } from 'src/app/redux/calculator.state.model';
 import IChartSample from 'src/app/models/chartSample';
-import { cacheResultHistory, clearResultsHistory } from 'src/app/redux/calculator.actions';
+import {
+  cacheResultHistory,
+  clearResultsHistory,
+} from 'src/app/redux/calculator.actions';
 import { NotificationService } from 'src/app/utility/notification.service';
 import { ActiveToast } from 'ngx-toastr';
+import { DndService } from '@ng-dnd/core';
+import { ApphistoryService } from './../../../utility/apphistory.service';
 
 @Component({
   selector: 'app-chart',
@@ -13,23 +18,28 @@ import { ActiveToast } from 'ngx-toastr';
 })
 export class ChartComponent implements OnInit {
   type: string;
-  data: object | undefined;
+  data: any | undefined;
   options: object | undefined;
   currentValue: Number | undefined;
   chartSamples: IChartSample[] = [];
   hidden: boolean = false;
   activeToast: ActiveToast<any> | undefined;
   hasSamples: boolean = false;
+  droppedItems: string[] = [];
 
-  constructor(private store: Store<IAppStore>, private notifyService: NotificationService) {
+  constructor(
+    private store: Store<IAppStore>,
+    private notifyService: NotificationService,
+    private dnd: DndService,
+    private appHistoryService: ApphistoryService
+  ) {
     store.select('calculatorState').subscribe;
     this.type = 'line';
     this.data = {
       datasets: [
         {
           label: 'Calculator Value Trend',
-          data: [
-          ],
+          data: [],
         },
       ],
     };
@@ -51,12 +61,21 @@ export class ChartComponent implements OnInit {
               maxTicksLimit: 5,
             },
           },
-        ],  
+        ],
       },
     };
   }
 
+  target: any
+  droppedItem: any;
   ngOnInit(): void {
+    this.target = this.dnd.dropTarget<{id: string}>('historyItem', {
+      drop: (monitor) => {
+        const result = monitor.getItem();
+        result && this.handleDroppedHistoryItem(result.id);
+      },
+    });
+
     this.store?.select('calculatorState')?.subscribe((state) => {
       const { currentValue, resultHistory } = state;
       if (this.currentValue !== currentValue) {
@@ -67,11 +86,16 @@ export class ChartComponent implements OnInit {
       this.hasSamples = resultHistory?.length > 0;
     });
     // Need to change the notify message to handle bug in 3rd party app...
-    this.chartSamples.length == 0 && (this.activeToast = this.notifyService.showInfo('',`Generate calculator results and watch them trend on the chart! (${new Date().getMilliseconds()})`));
+    this.chartSamples.length == 0 &&
+      (this.activeToast = this.notifyService.showInfo(
+        '',
+        `Generate calculator results and watch them trend on the chart! (${new Date().getMilliseconds()})`
+      ));
   }
 
   ngOnDestroy(): void {
-    this.activeToast && this.activeToast.toastRef.close();
+    this.activeToast?.toastRef.close();
+    this.target?.unsubscribe();
   }
 
   updateChartData(samples: ICalcResult[]) {
@@ -95,9 +119,21 @@ export class ChartComponent implements OnInit {
 
   toggleHidden = () => {
     this.hidden = !this.hidden;
-  }
+  };
 
   clearChartHistory = () => this.store.dispatch(clearResultsHistory());
 
   cacheTrend = () => this.store.dispatch(cacheResultHistory());
+
+  handleDroppedHistoryItem = (id: string) => {
+    if (this.droppedItems.find(item => item == id)) return;
+
+    const historyItem = this.appHistoryService.getItem(id);
+    if (historyItem == null) return;
+
+    this.data = {
+      ...this.data,
+      datasets: [...this?.data?.datasets, {label: id, data: historyItem?.resultHistory?.map(h => ({x: h.timestamp, y: h.value})) } ]
+    }
+  }
 }

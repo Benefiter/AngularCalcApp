@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ToastrService } from 'ngx-toastr';
 import { AppComponent } from './app.component';
-import { toastrService } from './testing/stubs';
+import { toastrServiceMock } from './testing/stubs';
 import { RouterTestingModule } from "@angular/router/testing";
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -16,7 +16,7 @@ describe('AppComponent', () => {
         AppComponent
       ],
       providers: [
-        {provide: ToastrService, useValue: toastrService}
+        {provide: ToastrService, useValue: toastrServiceMock}
       ]
     }).compileComponents();
   });

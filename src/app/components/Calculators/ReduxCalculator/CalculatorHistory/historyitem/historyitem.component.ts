@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IResultHistoryCacheItem } from 'src/app/redux/calculator.state.model';
 import { ApphistoryService } from './../../../../../utility/apphistory.service';
+import { DndService } from '@ng-dnd/core';
 
 @Component({
   selector: 'app-historyitem',
@@ -11,18 +11,30 @@ export class HistoryitemComponent implements OnInit {
   @Input() id: string;
   @Input() margin: string = '1px';
   text: string;
-  history: IResultHistoryCacheItem | undefined;
+  source = this.dnd.dragSource<{ id: string }>('historyItem', {
+    beginDrag: () => ({ id: this.id }),
+  });
+  isDragging: boolean = false;
 
-  constructor(private appHistoryService: ApphistoryService) {
+  constructor(
+    private appHistoryService: ApphistoryService,
+    private dnd: DndService
+  ) {
     this.text = 'id unknown';
     this.id = '';
   }
   ngOnInit(): void {
-    this.history = this.appHistoryService.getItem(this.id);
     this.text = this.setText();
+    this.source
+      ?.listen((monitor) => monitor.isDragging())
+      .subscribe((val) => (this.isDragging = val));
+  }
+
+  ngOnDestroy() {
+    this.source?.unsubscribe();
   }
 
   setText = () => {
     return this.appHistoryService.getSummary(this.id);
-  }
+  };
 }

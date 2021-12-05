@@ -3,7 +3,8 @@ import { Store } from '@ngrx/store';
 
 import { ChartComponent } from './chart.component';
 import { ToastrService } from 'ngx-toastr';
-import { storeMock, toastrService } from 'src/app/testing/stubs';
+import { dndServiceMock, storeMock, toastrServiceMock } from 'src/app/testing/stubs';
+import { DndService } from '@ng-dnd/core';
 
 describe('ChartComponent', () => {
   let component: ChartComponent;
@@ -15,7 +16,8 @@ describe('ChartComponent', () => {
       declarations: [ChartComponent],
       providers: [
         { provide: Store, useValue: storeMock },
-        { provide: ToastrService, useValue: toastrService },
+        { provide: ToastrService, useValue: toastrServiceMock },
+        { provide: DndService, useValue: dndServiceMock}
       ],
     }).compileComponents();
   });

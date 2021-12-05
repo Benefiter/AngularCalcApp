@@ -2,7 +2,7 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
-import { toastrService } from 'src/app/testing/stubs';
+import { toastrServiceMock } from 'src/app/testing/stubs';
 
 import { CalculatorComponent } from './calculator.component';
 
@@ -19,7 +19,7 @@ describe('CalculatorComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ CalculatorComponent ],
       providers: [
-        {provide: ToastrService, useValue: toastrService}
+        {provide: ToastrService, useValue: toastrServiceMock}
       ]
     })
     .compileComponents();

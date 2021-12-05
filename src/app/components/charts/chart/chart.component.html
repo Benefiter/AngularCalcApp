@@ -34,7 +34,7 @@
     [hidden]="hidden"
     (click)="toggleHidden()"
   ></app-icon>
-  <div [ngStyle]="{ display: hidden ? 'none' : 'block' }">
+  <div [ngStyle]="{ display: hidden ? 'none' : 'block' }" [dropTarget]="target">
     <chart [type]="type" [data]="data" [options]="options"></chart>
   </div>
 </div>

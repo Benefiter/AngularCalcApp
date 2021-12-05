@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ToastrService } from 'ngx-toastr';
-import { storeMock, toastrService } from 'src/app/testing/stubs';
+import { storeMock, toastrServiceMock } from 'src/app/testing/stubs';
 import { ReduxcalcbuttonComponent } from './reduxcalcbutton.component';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -18,7 +18,7 @@ describe('ReduxcalcbuttonComponent', () => {
       declarations: [ReduxcalcbuttonComponent],
       providers: [
         { provide: Store, useValue: storeMock },
-        { provide: ToastrService, useValue: toastrService },
+        { provide: ToastrService, useValue: toastrServiceMock },
       ],
     }).compileComponents();
   });

@@ -23,6 +23,8 @@ import { ChartComponent } from './components/charts/chart/chart.component';
 import { ChartModule } from 'angular2-chartjs';
 import { HistoryitemComponent } from './components/Calculators/ReduxCalculator/CalculatorHistory/historyitem/historyitem.component';
 import { HistoryitemsComponent } from './components/Calculators/ReduxCalculator/CalculatorHistory/historyitems/historyitems.component';
+import { DndModule, DndService } from "@ng-dnd/core";
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 const appRoutes: Routes = [
   {path: '', component: CalculatorComponent, data: {animation: 'isLeft'}},
@@ -58,8 +60,9 @@ const appRoutes: Routes = [
     }),
     RouterModule.forRoot(appRoutes, {enableTracing: false}),
     ChartModule,
+    DndModule.forRoot({ backend: HTML5Backend })
   ],
-  providers: [NotificationService, ToastrService],
+  providers: [NotificationService, ToastrService, DndService,],
   bootstrap: [AppComponent],
 })
 export class AppModule {

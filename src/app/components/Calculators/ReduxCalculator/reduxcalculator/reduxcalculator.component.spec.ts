@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ToastrService } from 'ngx-toastr';
-import { toastrService } from 'src/app/testing/stubs';
+import { toastrServiceMock } from 'src/app/testing/stubs';
 import { ReduxcalculatorComponent } from './reduxcalculator.component';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { IAppStore, INITIAL_STATE } from 'src/app/redux/calculator.state.model';
@@ -26,7 +26,7 @@ describe('ReduxcalculatorComponent', () => {
       ],
       declarations: [ReduxcalculatorComponent],
       providers: [
-        { provide: ToastrService, useValue: toastrService },
+        { provide: ToastrService, useValue: toastrServiceMock },
       ],
     }).compileComponents();
 
