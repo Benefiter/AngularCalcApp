@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ApphistoryService } from './../../../../../utility/apphistory.service';
 import { DndService } from '@ng-dnd/core';
+import { DragAndDropKeys } from 'src/app/constants';
 
 @Component({
   selector: 'app-historyitem',
@@ -11,7 +12,7 @@ export class HistoryitemComponent implements OnInit {
   @Input() id: string;
   @Input() margin: string = '1px';
   text: string;
-  source = this.dnd.dragSource<{ id: string }>('historyItem', {
+  source = this.dnd.dragSource<{ id: string }>(DragAndDropKeys.historyItem, {
     beginDrag: () => ({ id: this.id }),
   });
   isDragging: boolean = false;

@@ -10,6 +10,7 @@ import { NotificationService } from 'src/app/utility/notification.service';
 import { ActiveToast } from 'ngx-toastr';
 import { DndService } from '@ng-dnd/core';
 import { ApphistoryService } from './../../../utility/apphistory.service';
+import { DragAndDropKeys } from 'src/app/constants';
 
 @Component({
   selector: 'app-chart',
@@ -67,9 +68,8 @@ export class ChartComponent implements OnInit {
   }
 
   target: any
-  droppedItem: any;
   ngOnInit(): void {
-    this.target = this.dnd.dropTarget<{id: string}>('historyItem', {
+    this.target = this.dnd.dropTarget<{ id: string }>(DragAndDropKeys.historyItem, {
       drop: (monitor) => {
         const result = monitor.getItem();
         result && this.handleDroppedHistoryItem(result.id);
@@ -121,19 +121,42 @@ export class ChartComponent implements OnInit {
     this.hidden = !this.hidden;
   };
 
-  clearChartHistory = () => this.store.dispatch(clearResultsHistory());
+  clearChartHistory = () => {
+    this.store.dispatch(clearResultsHistory());
+    this.data = {
+      ...this.data,
+      datasets: [
+        {
+          label: 'Calculator Value Trend',
+          data: [],
+        },
+      ],
+    };
+    this.droppedItems = [];
+  };
 
   cacheTrend = () => this.store.dispatch(cacheResultHistory());
 
   handleDroppedHistoryItem = (id: string) => {
-    if (this.droppedItems.find(item => item == id)) return;
+
+    if (this.droppedItems.find((item) => item == id)) return;
 
     const historyItem = this.appHistoryService.getItem(id);
+
     if (historyItem == null) return;
 
     this.data = {
       ...this.data,
-      datasets: [...this?.data?.datasets, {label: id, data: historyItem?.resultHistory?.map(h => ({x: h.timestamp, y: h.value})) } ]
-    }
-  }
+      datasets: [
+        ...this?.data?.datasets,
+        {
+          label: id,
+          data: historyItem?.resultHistory?.map((h) => ({
+            x: h.timestamp,
+            y: h.value,
+          })),
+        },
+      ],
+    };
+  };
 }
