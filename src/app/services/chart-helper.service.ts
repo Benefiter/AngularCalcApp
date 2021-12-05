@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs';
-import { IAppStore, ICalcResult } from '../redux/calculator.state.model';
+import { ICalcResult } from '../redux/calculator.state.model';
 import IChartSample, {
   ChartLineColors,
   CHART_OPTIONS,
@@ -15,11 +14,19 @@ import IChartSample, {
 })
 export class ChartHelperService {
   chartData: IChartServiceBehaviourSubjectData[] = [];
-  chartDataSource = new BehaviorSubject<IChartServiceBehaviourSubjectData>(
-    DEFAULT_ChartServiceBehaviourSubjectData_State
-  );
+  chartDataSource: BehaviorSubject<IChartServiceBehaviourSubjectData>;
 
-  constructor(private store: Store<IAppStore>) {}
+  constructor() {
+    this.chartDataSource = new BehaviorSubject<IChartServiceBehaviourSubjectData>(
+      DEFAULT_ChartServiceBehaviourSubjectData_State
+    );
+  
+  }
+
+  ngOnDestroy(): void {
+    this.chartDataSource.unsubscribe();
+  }
+
   defaultChartDataState = () => ({...DEFAULT_CHART_DATA_STATE});
   chartOptions = () => CHART_OPTIONS;
 
@@ -68,7 +75,7 @@ export class ChartHelperService {
   hasDataForChart = (targetId: number) => {
     const item = this.getChartDataWithTargetId(targetId);
 
-    return item && item?.data?.datasets.length > 0;
+    return item && item?.data?.datasets.some(d => d.data.length > 0);
   };
 
   clearChart = (targetId: number) => {

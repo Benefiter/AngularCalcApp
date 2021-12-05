@@ -16,6 +16,7 @@ import {
   IChartServiceBehaviourSubjectData,
 } from './../../../services/chart-helper.constants';
 import { ChartHelperService } from './../../../services/chart-helper.service';
+import { ObjectUnsubscribedError } from 'rxjs';
 
 @Component({
   selector: 'app-chart',
@@ -84,8 +85,14 @@ export class ChartComponent implements OnInit {
     this.initDragDropTarget();
     this.monitorCalculatorStoreChanges();
     this.instructionsNotify();
+    try {
+      this.helperService.chartDataSource.subscribe(chartDataUpdate => (chartDataUpdate.targetId == this.targetId) && this.updateChartDataFromService(chartDataUpdate));
+    }
+    catch (ObjectUnsubscribedError) {
+      this.helperService = new ChartHelperService();
+      this.helperService.chartDataSource.subscribe(chartDataUpdate => (chartDataUpdate.targetId == this.targetId) && this.updateChartDataFromService(chartDataUpdate));
+    }
     this.helperService.register(this.targetId);
-    this.helperService.chartDataSource.subscribe(chartDataUpdate => (chartDataUpdate.targetId == this.targetId) && this.updateChartDataFromService(chartDataUpdate));
   }
 
   ngOnDestroy(): void {
