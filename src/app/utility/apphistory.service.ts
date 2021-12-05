@@ -38,4 +38,6 @@ export class ApphistoryService {
       ? `id: ${item.id?.toString()} ${this.getDateRange(item)}}`
       : `id: ${id}`;
   };
+
+  getCount = () => this.resultHistory ? this.resultHistory.length : 0;
 }

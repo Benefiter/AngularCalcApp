@@ -10,7 +10,8 @@ import { NotificationService } from 'src/app/utility/notification.service';
 import { ActiveToast } from 'ngx-toastr';
 import { DndService } from '@ng-dnd/core';
 import { ApphistoryService } from './../../../utility/apphistory.service';
-import { DragAndDropKeys } from 'src/app/constants';
+import { DragAndDropKeys, MAX_CHART_LINES } from 'src/app/constants';
+import { ChartLineColors } from './../../../constants';
 
 @Component({
   selector: 'app-chart',
@@ -26,7 +27,7 @@ export class ChartComponent implements OnInit {
   hidden: boolean = false;
   activeToast: ActiveToast<any> | undefined;
   hasSamples: boolean = false;
-  droppedItems: string[] = [];
+  droppedItemIds: string[] = [];
 
   constructor(
     private store: Store<IAppStore>,
@@ -41,6 +42,7 @@ export class ChartComponent implements OnInit {
         {
           label: 'Calculator Value Trend',
           data: [],
+          backgroundColor: ChartLineColors[0],
         },
       ],
     };
@@ -86,7 +88,7 @@ export class ChartComponent implements OnInit {
       this.hasSamples = resultHistory?.length > 0;
     });
     // Need to change the notify message to handle bug in 3rd party app...
-    this.chartSamples.length == 0 &&
+    if (this.chartSamples.length == 0 && this.appHistoryService.getCount() == 0)
       (this.activeToast = this.notifyService.showInfo(
         '',
         `Generate calculator results and watch them trend on the chart! (${new Date().getMilliseconds()})`
@@ -110,7 +112,7 @@ export class ChartComponent implements OnInit {
       ...this.data,
       datasets: [
         {
-          label: 'Calculator Value Trend',
+          ...this.data.datasets[0],
           data: [...this.chartSamples],
         },
       ],
@@ -127,19 +129,27 @@ export class ChartComponent implements OnInit {
       ...this.data,
       datasets: [
         {
-          label: 'Calculator Value Trend',
+          ...this.data.datasets[0],
           data: [],
         },
       ],
     };
-    this.droppedItems = [];
+    this.droppedItemIds = [];
   };
 
   cacheTrend = () => this.store.dispatch(cacheResultHistory());
 
   handleDroppedHistoryItem = (id: string) => {
+    console.log('this.data');
+    console.log(this.data);
 
-    if (this.droppedItems.find((item) => item == id)) return;
+    if (this.data.datasets.length == MAX_CHART_LINES) {
+      return;
+    }
+
+    if (this.droppedItemIds.find((item) => item == id)) return;
+
+    this.droppedItemIds.push(id);
 
     const historyItem = this.appHistoryService.getItem(id);
 
@@ -151,6 +161,7 @@ export class ChartComponent implements OnInit {
         ...this?.data?.datasets,
         {
           label: id,
+          backgroundColor: ChartLineColors[this.data.datasets.length],
           data: historyItem?.resultHistory?.map((h) => ({
             x: h.timestamp,
             y: h.value,
@@ -158,5 +169,15 @@ export class ChartComponent implements OnInit {
         },
       ],
     };
+
+    // purge empty datasets
+    this.data = {
+      ...this.data,
+      datasets: this.data.datasets.filter((d: { data: string | any[]; }) => d.data.length > 0)
+    }
+    if (this.data.datasets.length == MAX_CHART_LINES) {
+      this.notifyService.showInfo('', 'Maximum number of chart lines has been reached.');
+    }
+
   };
 }
