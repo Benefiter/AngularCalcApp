@@ -25,6 +25,11 @@ import { HistoryitemComponent } from './components/Calculators/ReduxCalculator/C
 import { HistoryitemsComponent } from './components/Calculators/ReduxCalculator/CalculatorHistory/historyitems/historyitems.component';
 import { DndModule, DndService } from "@ng-dnd/core";
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 const appRoutes: Routes = [
   {path: '', component: CalculatorComponent, data: {animation: 'isLeft'}},
@@ -55,12 +60,17 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       timeOut: 5000,
-      positionClass: 'toast-top-left',
+      positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),
     RouterModule.forRoot(appRoutes, {enableTracing: false}),
     ChartModule,
-    DndModule.forRoot({ backend: HTML5Backend })
+    DndModule.forRoot({ backend: HTML5Backend }),
+    MatSidenavModule,
+    MatIconModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatToolbarModule
   ],
   providers: [NotificationService, ToastrService, DndService,],
   bootstrap: [AppComponent],

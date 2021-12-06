@@ -72,19 +72,9 @@ export class ChartComponent implements OnInit {
     });
   };
 
-  instructionsNotify = () => {
-    // Need to change the notify message to handle bug in 3rd party app...
-    if (!this.helperService.hasDataForChart(this.targetId) && this.appHistoryService.getCount() == 0)
-      this.activeToast = this.notifyService.showInfo(
-        '',
-        `Generate calculator results and watch them trend on the chart! (${new Date().getMilliseconds()})`
-      );
-  };
-
   ngOnInit(): void {
     this.initDragDropTarget();
     this.monitorCalculatorStoreChanges();
-    this.instructionsNotify();
     try {
       this.helperService.chartDataSource.subscribe(chartDataUpdate => (chartDataUpdate.targetId == this.targetId) && this.updateChartDataFromService(chartDataUpdate));
     }

@@ -1,14 +1,40 @@
-<div class="title">
-  <span>
-    <h1>{{ title }}</h1>
-    <a class="link" routerLink="/redux" [hidden]="!home"
-      >Switch to Redux Calculator</a
-    >
-    <a class="link" routerLink="/" [hidden]="home"
-      >Switch to Event Calculator</a
-    >
-  </span>
+<div>
+  <mat-toolbar class="toolbar">
+    <button (click)="opened = !opened"><mat-icon>menu</mat-icon></button>
+  </mat-toolbar>
 </div>
-<main [@routeAnimations]="prepareRoute(outlet)" class="content">
-  <router-outlet #outlet="outlet"></router-outlet>
-</main>
+<div class="main-layout">
+  <mat-sidenav-container>
+    <mat-sidenav mode="side" [(opened)]="opened">
+      <button mat-button class="menu-button">
+        <a routerLink="/">
+          <mat-icon>person</mat-icon>
+          <span>Event Calculator</span>
+        </a>
+      </button>
+      <button mat-button class="menu-button">
+        <a routerLink="/redux">
+          <mat-icon>person</mat-icon>
+          <span>Redux Calculator</span>
+        </a>
+      </button>
+      <div [hidden]="home">
+        <mat-divider></mat-divider>
+        <button (click)="showHelp()" mat-button class="menu-button">
+          <mat-icon>info</mat-icon>
+          <span>Help</span>
+        </button>
+      </div>
+    </mat-sidenav>
+  </mat-sidenav-container>
+  <div class="content">
+    <div class="title">
+      <h1>{{ title }}</h1>
+    </div>
+    <div>
+      <main [@routeAnimations]="prepareRoute(outlet)">
+        <router-outlet #outlet="outlet"></router-outlet>
+      </main>
+    </div>
+  </div>
+</div>

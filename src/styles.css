@@ -1,4 +1,7 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    --navbar-color: rgb(3, 121, 111);
+  }
+
 *, *::before, *::after {
     box-sizing: border-box;
     font-weight: normal;

@@ -1,14 +1,40 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { faSave, faWindowMinimize, faWindowRestore } from '@fortawesome/free-regular-svg-icons';
-import { faDivide, faEquals, faEraser, faMinus, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
+import {
+  faSave,
+  faWindowMinimize,
+  faWindowRestore,
+} from '@fortawesome/free-regular-svg-icons';
+import {
+  faArrowLeft,
+  faArrowRight,
+  faBars,
+  faDivide,
+  faEquals,
+  faEraser,
+  faMinus,
+  faPlus,
+  faTimes,
+} from '@fortawesome/free-solid-svg-icons';
 
-type IconType = 'times' | 'divide' | 'plus' | 'minus' | 'equals' | 'collapse' | 'expand' | 'clear' | 'save'
-type ColorType = 'red' | 'black' | 'green' | 'blue';
+type IconType =
+  | 'times'
+  | 'divide'
+  | 'plus'
+  | 'minus'
+  | 'equals'
+  | 'collapse'
+  | 'expand'
+  | 'clear'
+  | 'save'
+  | 'menu'
+  | 'leftarrow'
+  | 'rightarrow';
+type ColorType = string;
 
 @Component({
   selector: 'app-icon',
   templateUrl: './icon.component.html',
-  styleUrls: ['./icon.component.css']
+  styleUrls: ['./icon.component.css'],
 })
 export class IconComponent implements OnInit {
   @Input() icon: IconType;
@@ -22,8 +48,8 @@ export class IconComponent implements OnInit {
     this.icon = 'times';
     this.color = 'black';
     this.theIcon = faTimes;
-    this.title= this.icon;
-   }
+    this.title = this.icon;
+  }
 
   ngOnInit(): void {
     switch (this.icon) {
@@ -53,11 +79,20 @@ export class IconComponent implements OnInit {
         break;
       case 'save':
         this.theIcon = faSave;
-         break;  
+        break;
+      case 'menu':
+        this.theIcon = faBars;
+        break;
+      case 'leftarrow':
+        this.theIcon = faArrowLeft;
+        break;
+      case 'rightarrow':
+        this.theIcon = faArrowRight;
+        break;
     }
   }
 
-  colorStyle() : any {
+  colorStyle(): any {
     const style = `{'color': '${this.color}'}`;
     return style;
   }

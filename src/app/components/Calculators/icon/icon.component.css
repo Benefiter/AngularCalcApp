@@ -1,6 +1,7 @@
 .button-icon {
     background-color: rgb(179, 236, 247);
     opacity: 80%;
+    border-radius: 5px;
 }
 
 .button-icon:hover {

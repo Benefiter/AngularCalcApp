@@ -4,23 +4,30 @@ import { filter } from 'rxjs';
 import { NotificationService } from './services/notification.service';
 import { RouterOutlet } from '@angular/router';
 import { fader } from './route-animations';
+import { ActiveToast } from 'ngx-toastr';
+import { ApphistoryService } from './services/apphistory.service';
 
 const CalculatorSwithNotifyTimeout = 1000;
-
+const bullet1 = 'Add samples to the chart by generating calculator results. The "Cache Trend Data icon will appear on the chart.';
+const bullet2 = 'Use the "Cache Trend Data" icon on the chart to create a snapshot of the current trend.';
+const bullet3 = 'Drag and drop one or more of the cached items from the Calculator History card to the chart';
+const usage = `<ul><li>${bullet1}</li>&nbsp<li>${bullet2}</li>&nbsp<li>${bullet3}</li></ul>`;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  animations: [
-    fader
-  ]
+  animations: [fader],
 })
 export class AppComponent implements OnInit {
   title = 'Event Calculator Active';
   home: boolean = true;
+  opened: boolean = true;
+  helpIdToast: ActiveToast<any> | undefined = undefined;
+  useHelpIdToast: ActiveToast<any> | undefined = undefined;
 
   constructor(
     private notifyService: NotificationService,
+    private appHIstoryService: ApphistoryService,
     private router: Router
   ) {}
 
@@ -40,21 +47,36 @@ export class AppComponent implements OnInit {
               '',
               CalculatorSwithNotifyTimeout
             );
-          this.title = this.home 
-          ? 'Event Calculator Active'
-          : 'Redux Calculator Active'
+        this.title = this.home ? 'Event Calculator' : 'Redux Calculator';
+        if (!this.home && this.appHIstoryService.getCount() == 0) this.instructionsNotify();
       });
   }
 
-  // For how-to reference.
-  showHtmlToaster() {
-    this.notifyService?.showHTMLMessage(
-      '<h2>Data shown successfully !!</h2>',
-      'Notification'
-    );
+  ngOnDestroy() {
+    this.helpIdToast?.toastRef.close();
+    this.useHelpIdToast?.toastRef.close();
+  }
+
+  instructionsNotify = () => {
+      this.useHelpIdToast = this.notifyService.showInfoWithTimeout(
+        '',
+        `Click Help on the navigation menu.`,
+        3000
+      );
+  };
+
+  showHelp() {
+    this.useHelpIdToast?.toastRef.close();
+    this.helpIdToast = this.notifyService?.showHTMLMessage(usage, `Usage:`);
   }
 
   prepareRoute(outlet: RouterOutlet) {
-    return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
+    return (
+      outlet &&
+      outlet.activatedRouteData &&
+      outlet.activatedRouteData['animation']
+    );
   }
+
+  toggleSidenav = () => (this.opened = !this.opened);
 }
