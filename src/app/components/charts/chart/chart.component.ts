@@ -64,7 +64,7 @@ export class ChartComponent implements OnInit {
       const { currentValue, resultHistory } = state;
       if (this.currentValue !== currentValue) {
         this.currentValue = currentValue;
-       resultHistory && this.updateChartData(state.resultHistory);
+        resultHistory && this.updateChartData(state.resultHistory);
       }
       if (resultHistory?.length == 0) this.updateChartData(resultHistory);
       this.hasSamples = resultHistory?.length > 0;
@@ -75,13 +75,31 @@ export class ChartComponent implements OnInit {
     this.initDragDropTarget();
     this.monitorCalculatorStoreChanges();
     try {
-      this.helperService.chartDataSource.subscribe(chartDataUpdate => (chartDataUpdate.targetId == this.targetId) && this.updateChartDataFromService(chartDataUpdate));
-    }
-    catch (ObjectUnsubscribedError) {
+      this.helperService.chartDataSource.subscribe(
+        (chartDataUpdate) =>
+          chartDataUpdate.targetId == this.targetId &&
+          this.updateChartDataFromService(chartDataUpdate)
+      );
+    } catch (ObjectUnsubscribedError) {
       this.helperService = new ChartHelperService();
-      this.helperService.chartDataSource.subscribe(chartDataUpdate => (chartDataUpdate.targetId == this.targetId) && this.updateChartDataFromService(chartDataUpdate));
+      this.helperService.chartDataSource.subscribe(
+        (chartDataUpdate) =>
+          chartDataUpdate.targetId == this.targetId &&
+          this.updateChartDataFromService(chartDataUpdate)
+      );
     }
     this.helperService.register(this.targetId);
+
+    try {
+      this.appHistoryService.appHistoryDatasource.subscribe(
+        () => this.clearChart()
+      );
+    } catch (ObjectUnsubscribedError) {
+      this.appHistoryService = new ApphistoryService(this.store);
+      this.appHistoryService.appHistoryDatasource.subscribe(
+        () => this.clearChart()
+      );
+    }
   }
 
   ngOnDestroy(): void {
@@ -90,7 +108,9 @@ export class ChartComponent implements OnInit {
     this.helperService.chartDataSource.unsubscribe();
   }
 
-  updateChartDataFromService = (chartData: IChartServiceBehaviourSubjectData) => {
+  updateChartDataFromService = (
+    chartData: IChartServiceBehaviourSubjectData
+  ) => {
     this.data = chartData?.data;
     if (this.data.datasets.length == MAX_CHART_LINES) {
       this.notifyService.showInfo(
@@ -98,11 +118,11 @@ export class ChartComponent implements OnInit {
         'Maximum number of chart lines has been reached.'
       );
     }
-  }
+  };
 
   updateChartData = (samples: ICalcResult[]) => {
     this.helperService.updateChartData(this.targetId, samples);
-  }
+  };
 
   toggleHidden = () => {
     this.hidden = !this.hidden;
@@ -117,7 +137,6 @@ export class ChartComponent implements OnInit {
   cacheTrend = () => this.store.dispatch(cacheResultHistory());
 
   handleDroppedHistoryItem = (id: string) => {
-
     if (this.data.datasets.length == MAX_CHART_LINES) {
       return;
     }
@@ -135,6 +154,10 @@ export class ChartComponent implements OnInit {
       y: h.value.toString(),
     }));
 
-    this.helperService.addChart(this.targetId, chartData, historyItem.id.toString());
+    this.helperService.addChart(
+      this.targetId,
+      chartData,
+      historyItem.id.toString()
+    );
   };
 }

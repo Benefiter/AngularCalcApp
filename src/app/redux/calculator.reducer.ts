@@ -78,7 +78,7 @@ const handleCalcButtonOperationEmit = (state: IAppState, button: string) => {
     case 'AC':
       handleACButton(state);
       break;
-    case 'DEL':
+    case 'Del':
       handleDELButton(state);
       break;
     case '1':

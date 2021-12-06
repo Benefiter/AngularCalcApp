@@ -6,20 +6,27 @@ import {
 } from 'src/app/redux/calculator.state.model';
 import { cloneDeep } from 'lodash';
 import { clearResultsHistoryCache } from '../redux/calculator.actions';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApphistoryService {
   resultHistory: IResultHistoryCacheItem[] = [];
+  appHistoryDatasource: BehaviorSubject<boolean>;
 
   constructor(private store: Store<IAppStore>) {
     this.store.select('calculatorState').subscribe((state) => {
       const { resultHistoryCache } = state;
       this.resultHistory = cloneDeep(resultHistoryCache);
     });
+    this.appHistoryDatasource = new BehaviorSubject<boolean>(false);
   }
 
+  ngOnDestroy(): void {
+    this.appHistoryDatasource.unsubscribe();
+  }
+  
   getItem = (id: string) => {
     return this?.resultHistory.find((item) => item.id.toString() == id);
   };
@@ -44,6 +51,7 @@ export class ApphistoryService {
 
   clearHistory = () => {
     this.store.dispatch(clearResultsHistoryCache());
+    this.appHistoryDatasource.next(true);
   }
 
 }
