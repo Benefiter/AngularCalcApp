@@ -6,13 +6,16 @@ import { RouterOutlet } from '@angular/router';
 import { fader } from './route-animations';
 import { ActiveToast } from 'ngx-toastr';
 import { ApphistoryService } from './services/apphistory.service';
-import { IAppState } from './redux/calculator.state.model';
+import { IAppStore } from './redux/calculator.state.model';
 import { Store } from '@ngrx/store';
 
 const CalculatorSwithNotifyTimeout = 1000;
-const bullet1 = 'Add samples to the chart by generating calculator results. The "Cache Trend Data icon will appear on the chart.';
-const bullet2 = 'Use the "Cache Trend Data" icon on the chart to create a snapshot of the current trend.';
-const bullet3 = 'Drag and drop one or more of the cached items from the Calculator History card to the chart';
+const bullet1 =
+  'Add samples to the chart by generating calculator results. The "Cache Trend Data icon will appear on the chart.';
+const bullet2 =
+  'Use the "Cache Trend Data" icon on the chart to create a snapshot of the current trend.';
+const bullet3 =
+  'Drag and drop one or more of the cached items from the Calculator History card to the chart';
 const usage = `<ul><li>${bullet1}</li>&nbsp<li>${bullet2}</li>&nbsp<li>${bullet3}</li></ul>`;
 @Component({
   selector: 'app-root',
@@ -26,15 +29,20 @@ export class AppComponent implements OnInit {
   opened: boolean = true;
   helpIdToast: ActiveToast<any> | undefined = undefined;
   useHelpIdToast: ActiveToast<any> | undefined = undefined;
+  hasHistory: boolean = false;
 
   constructor(
     private notifyService: NotificationService,
     private appHIstoryService: ApphistoryService,
     private router: Router,
-    private store: Store<IAppState>
+    private store: Store<IAppStore>
   ) {}
 
   ngOnInit() {
+    this.store.select('calculatorState').subscribe((state) => {
+      this.hasHistory = this.appHIstoryService.hasCachedHistory;
+    });
+
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((_) => {
@@ -51,7 +59,8 @@ export class AppComponent implements OnInit {
               CalculatorSwithNotifyTimeout
             );
         this.title = this.home ? 'Event Calculator' : 'Redux Calculator';
-        if (!this.home && this.appHIstoryService.getCount() == 0) this.instructionsNotify();
+        if (!this.home && this.appHIstoryService.getCount() == 0)
+          this.instructionsNotify();
       });
   }
 
@@ -61,11 +70,11 @@ export class AppComponent implements OnInit {
   }
 
   instructionsNotify = () => {
-      this.useHelpIdToast = this.notifyService.showInfoWithTimeout(
-        '',
-        `Click Help on the navigation menu.`,
-        3000
-      );
+    this.useHelpIdToast = this.notifyService.showInfoWithTimeout(
+      '',
+      `Click Help on the navigation menu.`,
+      3000
+    );
   };
 
   showHelp() {
@@ -84,5 +93,4 @@ export class AppComponent implements OnInit {
   toggleSidenav = () => (this.opened = !this.opened);
 
   clearHistory = () => this?.appHIstoryService.clearHistory();
-
 }

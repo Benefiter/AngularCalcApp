@@ -13,12 +13,14 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ApphistoryService {
   resultHistory: IResultHistoryCacheItem[] = [];
+  hasCachedHistory: boolean = false;
   appHistoryDatasource: BehaviorSubject<boolean>;
 
   constructor(private store: Store<IAppStore>) {
     this.store.select('calculatorState').subscribe((state) => {
       const { resultHistoryCache } = state;
       this.resultHistory = cloneDeep(resultHistoryCache);
+      this.hasCachedHistory = resultHistoryCache?.length > 0;
     });
     this.appHistoryDatasource = new BehaviorSubject<boolean>(false);
   }
@@ -53,5 +55,7 @@ export class ApphistoryService {
     this.store.dispatch(clearResultsHistoryCache());
     this.appHistoryDatasource.next(true);
   }
+
+  hasHistory = () => this.hasCachedHistory;
 
 }
