@@ -9,7 +9,7 @@ export interface CalculatorButton {
       className: 'span-two',
     },
     {
-      buttonName: 'DEL',
+      buttonName: 'Del',
       className: '',
     },
     {
