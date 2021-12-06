@@ -30,3 +30,7 @@ export const clearResultsHistory = createAction(
     CalculatorActionTypes.ClearHistory
 )
 
+export const clearResultsHistoryCache = createAction(
+    CalculatorActionTypes.ClearHistoryCache
+)
+

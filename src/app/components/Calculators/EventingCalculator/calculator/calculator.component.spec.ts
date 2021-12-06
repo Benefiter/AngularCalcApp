@@ -132,18 +132,18 @@ describe('CalculatorComponent', () => {
     expect(component?.currentOperation)?.toBe('');
   });
 
-  it('should delete last number of operand when DEL clicked and operand exists', () => {
+  it('should Delete last number of operand when Del clicked and operand exists', () => {
     clickCalculatorButton('1');
     clickCalculatorButton('.');
     clickCalculatorButton('1');
-    clickCalculatorButton('DEL');
+    clickCalculatorButton('Del');
 
     expect(component?.operand)?.toBe('1.');
     expect(component?.prevOperand)?.toBe('');
     expect(component?.currentOperation)?.toBe('');
   });
 
-  it('should delete operation from prevOperand and reset operand and prevOperand when DEL clicked after operation button clicked', () => {
+  it('should Delete operation from prevOperand and reset operand and prevOperand when Del clicked after operation button clicked', () => {
     clickCalculatorButton('1');
     clickCalculatorButton('.');
     clickCalculatorButton('1');
@@ -153,7 +153,7 @@ describe('CalculatorComponent', () => {
     expect(component?.prevOperand)?.toBe('1.1 +');
     expect(component?.currentOperation)?.toBe('+');
 
-    clickCalculatorButton('DEL');
+    clickCalculatorButton('Del');
 
     expect(component?.operand)?.toBe('1.1');
     expect(component?.prevOperand)?.toBe('');
@@ -181,7 +181,7 @@ describe('CalculatorComponent', () => {
     expect(component?.currentOperation)?.toBe('+');
   });
 
-  it('should restore operand and reset prevOperand operation with button sequence 1 + 2 DEL DEL', () => {
+  it('should restore operand and reset prevOperand operation with button sequence 1 + 2 Del Del', () => {
     clickCalculatorButton('1');
     clickCalculatorButton('+');
     clickCalculatorButton('2');
@@ -189,12 +189,12 @@ describe('CalculatorComponent', () => {
     expect(component?.prevOperand)?.toBe('1 +');
     expect(component?.currentOperation)?.toBe('+');
 
-    clickCalculatorButton('DEL');
+    clickCalculatorButton('Del');
     expect(component?.operand)?.toBe('');
     expect(component?.prevOperand)?.toBe('1 +');
     expect(component?.currentOperation)?.toBe('+');
 
-    clickCalculatorButton('DEL');
+    clickCalculatorButton('Del');
     expect(component?.operand)?.toBe('1');
     expect(component?.prevOperand)?.toBe('');
     expect(component?.currentOperation)?.toBe('');

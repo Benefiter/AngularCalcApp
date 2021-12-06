@@ -4,5 +4,6 @@ export enum CalculatorActionTypes {
     UpdateHistory = 'UpdateHistory',
     ClearHistory = 'ClearHistory',
     CacheHistory = 'CacheHistory',
+    ClearHistoryCache = 'ClearHistoryCache',
     SetButtonClick = 'SetButtonClick'
 }

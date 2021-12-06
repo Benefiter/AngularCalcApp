@@ -31,7 +31,7 @@ export class CalculatorComponent implements OnInit {
       case 'AC':
         this.handleACButton();
         break;
-      case 'DEL':
+      case 'Del':
         this.handleDELButton();
         break;
       case '1':

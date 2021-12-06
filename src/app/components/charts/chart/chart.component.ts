@@ -16,7 +16,6 @@ import {
   IChartServiceBehaviourSubjectData,
 } from './../../../services/chart-helper.constants';
 import { ChartHelperService } from './../../../services/chart-helper.service';
-import { ObjectUnsubscribedError } from 'rxjs';
 
 @Component({
   selector: 'app-chart',

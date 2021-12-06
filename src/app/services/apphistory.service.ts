@@ -5,6 +5,7 @@ import {
   IResultHistoryCacheItem,
 } from 'src/app/redux/calculator.state.model';
 import { cloneDeep } from 'lodash';
+import { clearResultsHistoryCache } from '../redux/calculator.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -40,4 +41,9 @@ export class ApphistoryService {
   };
 
   getCount = () => this.resultHistory ? this.resultHistory.length : 0;
+
+  clearHistory = () => {
+    this.store.dispatch(clearResultsHistoryCache());
+  }
+
 }

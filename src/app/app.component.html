@@ -6,18 +6,21 @@
 <div class="main-layout">
   <mat-sidenav-container>
     <mat-sidenav mode="side" [(opened)]="opened">
-      <button mat-button class="menu-button">
-        <a routerLink="/">
-          <mat-icon>person</mat-icon>
-          <span>Event Calculator</span>
-        </a>
-      </button>
-      <button mat-button class="menu-button">
-        <a routerLink="/redux">
-          <mat-icon>person</mat-icon>
-          <span>Redux Calculator</span>
-        </a>
-      </button>
+      <div >
+        <button mat-button class="menu-button" routerLink="/">
+            <mat-icon>person</mat-icon>
+            <span>Event Calculator</span>
+        </button>
+      </div>
+      <div>
+        <button mat-button class="menu-button" routerLink="/redux">
+            <mat-icon>person</mat-icon>
+            <span>Redux Calculator</span>
+        </button>
+        <div class="submenu-button"  (click)="clearHistory()" >
+          Clear History
+        </div>  
+      </div>
       <div [hidden]="home">
         <mat-divider></mat-divider>
         <button (click)="showHelp()" mat-button class="menu-button">

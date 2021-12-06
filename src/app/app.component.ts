@@ -6,6 +6,8 @@ import { RouterOutlet } from '@angular/router';
 import { fader } from './route-animations';
 import { ActiveToast } from 'ngx-toastr';
 import { ApphistoryService } from './services/apphistory.service';
+import { IAppState } from './redux/calculator.state.model';
+import { Store } from '@ngrx/store';
 
 const CalculatorSwithNotifyTimeout = 1000;
 const bullet1 = 'Add samples to the chart by generating calculator results. The "Cache Trend Data icon will appear on the chart.';
@@ -28,7 +30,8 @@ export class AppComponent implements OnInit {
   constructor(
     private notifyService: NotificationService,
     private appHIstoryService: ApphistoryService,
-    private router: Router
+    private router: Router,
+    private store: Store<IAppState>
   ) {}
 
   ngOnInit() {
@@ -79,4 +82,7 @@ export class AppComponent implements OnInit {
   }
 
   toggleSidenav = () => (this.opened = !this.opened);
+
+  clearHistory = () => this?.appHIstoryService.clearHistory();
+
 }

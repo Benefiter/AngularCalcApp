@@ -33,6 +33,29 @@ mat-sidenav {
   background: var(--navbar-color);
 }
 
+.menu-button:hover {
+  background-color: var(--navbar-color-hover);
+}
+
+.submenu-button {
+  /* padding-left: 20px; */
+  /* display: flex;
+  flex-direction: column;
+  align-items: right; */
+  padding: 5px 5px;
+  margin-left: 50px;
+  justify-content: flex-start;
+  background: var(--navbar-color);
+  font-size: .75rem;
+  width: fit-content;
+  border-radius: 5px;
+}
+
+.submenu-button:hover {
+  background-color: var(--navbar-color-hover);
+}
+
+
 mat-icon {
   margin-right: 8px;
 }
@@ -72,5 +95,13 @@ mat-toolbar button {
   border: none;
   background-color: unset;
 } 
+
+div button a:hover {
+  background-color: var(--navbar-color-hover);
+}
+
+div button a {
+  /* background-color: blue; */
+}
 
 

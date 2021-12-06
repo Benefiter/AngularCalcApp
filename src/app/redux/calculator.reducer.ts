@@ -10,6 +10,7 @@ import {
   setButtonClick,
   clearResultsHistory,
   cacheResultHistory,
+  clearResultsHistoryCache
 } from './calculator.actions';
 import { Action, createReducer, on } from '@ngrx/store';
 import { cloneDeep } from 'lodash';
@@ -50,6 +51,11 @@ const _calculatorStateReducer = createReducer(
     return {
     ...state,
     resultHistory: [],
+  }}),
+  on(clearResultsHistoryCache, (state, {}) => {
+    return {
+    ...state,
+    resultHistoryCache: [],
   }}),
   on(cacheResultHistory, (state, {}) => {
     return {
