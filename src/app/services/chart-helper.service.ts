@@ -23,10 +23,6 @@ export class ChartHelperService {
   
   }
 
-  ngOnDestroy(): void {
-    this.chartDataSource.unsubscribe();
-  }
-
   defaultChartDataState = () => ({...DEFAULT_CHART_DATA_STATE});
   chartOptions = () => CHART_OPTIONS;
 
@@ -55,7 +51,7 @@ export class ChartHelperService {
     };
 
 
-    this.chartDataSource.next({ ...chartData });
+    this?.chartDataSource.next({ ...chartData });
   };
 
   register = (targetId: number) => {
@@ -89,7 +85,7 @@ export class ChartHelperService {
     };
 
 
-    this.chartDataSource.next({ ...item });
+    this?.chartDataSource.next({ ...item });
   };
 
   addChart = (targetId: number, chartData: IChartSample[], title: string) => {
@@ -116,6 +112,6 @@ export class ChartHelperService {
       ),
     };
 
-    this.chartDataSource.next({ ...item });
+    this?.chartDataSource.next({ ...item });
   };
 }

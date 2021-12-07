@@ -33,6 +33,9 @@ export class ChartComponent implements OnInit {
   droppedItemIds: string[] = [];
   target: any;
   targetId = 1;
+  helperServiceSubscription: any;
+  appHistoryServiceSubscription: any;
+
 
   constructor(
     private store: Store<IAppStore>,
@@ -75,14 +78,14 @@ export class ChartComponent implements OnInit {
     this.initDragDropTarget();
     this.monitorCalculatorStoreChanges();
     try {
-      this.helperService.chartDataSource.subscribe(
+      this.helperServiceSubscription = this.helperService.chartDataSource.subscribe(
         (chartDataUpdate) =>
           chartDataUpdate.targetId == this.targetId &&
           this.updateChartDataFromService(chartDataUpdate)
       );
     } catch (ObjectUnsubscribedError) {
       this.helperService = new ChartHelperService();
-      this.helperService.chartDataSource.subscribe(
+      this.helperServiceSubscription = this.helperService.chartDataSource.subscribe(
         (chartDataUpdate) =>
           chartDataUpdate.targetId == this.targetId &&
           this.updateChartDataFromService(chartDataUpdate)
@@ -91,12 +94,12 @@ export class ChartComponent implements OnInit {
     this.helperService.register(this.targetId);
 
     try {
-      this.appHistoryService.appHistoryDatasource.subscribe(
+      this.appHistoryServiceSubscription = this.appHistoryService.appHistoryDatasource.subscribe(
         () => this.clearChart()
       );
     } catch (ObjectUnsubscribedError) {
       this.appHistoryService = new ApphistoryService(this.store);
-      this.appHistoryService.appHistoryDatasource.subscribe(
+      this.appHistoryServiceSubscription = this.appHistoryService.appHistoryDatasource.subscribe(
         () => this.clearChart()
       );
     }
@@ -105,7 +108,8 @@ export class ChartComponent implements OnInit {
   ngOnDestroy(): void {
     this.activeToast?.toastRef.close();
     this.target?.unsubscribe();
-    this.helperService.chartDataSource.unsubscribe();
+    this.appHistoryServiceSubscription?.unsubscribe();
+
   }
 
   updateChartDataFromService = (
